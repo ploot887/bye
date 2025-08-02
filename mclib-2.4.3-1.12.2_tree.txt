@@ -1,0 +1,525 @@
+mclib-2.4.3-1.12.2
+├── META-INF
+│   ├── MANIFEST.MF
+│   ├── fml_cache_annotation.json
+│   └── fml_cache_class_versions.json
+├── assets
+│   └── mclib
+│       ├── lang
+│       │   ├── en_US.lang
+│       │   ├── es_ES.lang
+│       │   ├── fr_FR.lang
+│       │   ├── pt_BR.lang
+│       │   ├── ru_RU.lang
+│       │   ├── ua_uk.lang
+│       │   ├── zh_CN.lang
+│       │   └── zh_TW.lang
+│       ├── shaders
+│       │   ├── preview.frag
+│       │   └── preview.vert
+│       └── textures
+│           ├── gui
+│           │   └── icons.png
+│           └── pixel.png
+├── mchorse
+│   └── mclib
+│       ├── ClientProxy.class
+│       ├── CommonProxy.class
+│       ├── McLib.class
+│       ├── client
+│       │   ├── Draw.class
+│       │   ├── InputRenderer$PressedKey.class
+│       │   ├── InputRenderer.class
+│       │   ├── KeyboardHandler.class
+│       │   ├── gui
+│       │   │   ├── framework
+│       │   │   │   ├── GuiBase$GuiRootElement.class
+│       │   │   │   ├── GuiBase.class
+│       │   │   │   ├── elements
+│       │   │   │   │   ├── GuiCollapseSection.class
+│       │   │   │   │   ├── GuiConfirmationScreen.class
+│       │   │   │   │   ├── GuiDelegateElement.class
+│       │   │   │   │   ├── GuiElement.class
+│       │   │   │   │   ├── GuiElements.class
+│       │   │   │   │   ├── GuiModelRenderer.class
+│       │   │   │   │   ├── GuiPanelBase.class
+│       │   │   │   │   ├── GuiScrollElement.class
+│       │   │   │   │   ├── IFocusedGuiElement.class
+│       │   │   │   │   ├── IGuiElement.class
+│       │   │   │   │   ├── IViewport.class
+│       │   │   │   │   ├── buttons
+│       │   │   │   │   │   ├── GuiButtonElement.class
+│       │   │   │   │   │   ├── GuiCirculateElement.class
+│       │   │   │   │   │   ├── GuiClickElement.class
+│       │   │   │   │   │   ├── GuiIconElement.class
+│       │   │   │   │   │   ├── GuiSlotElement.class
+│       │   │   │   │   │   └── GuiToggleElement.class
+│       │   │   │   │   ├── context
+│       │   │   │   │   │   ├── GuiContextMenu.class
+│       │   │   │   │   │   ├── GuiSimpleContextMenu$Action.class
+│       │   │   │   │   │   ├── GuiSimpleContextMenu$ColorfulAction.class
+│       │   │   │   │   │   ├── GuiSimpleContextMenu$GuiActionListElement.class
+│       │   │   │   │   │   └── GuiSimpleContextMenu.class
+│       │   │   │   │   ├── input
+│       │   │   │   │   │   ├── GuiBaseTextElement.class
+│       │   │   │   │   │   ├── GuiColorElement.class
+│       │   │   │   │   │   ├── GuiKeybindElement.class
+│       │   │   │   │   │   ├── GuiKeybinds$KeybindCategory.class
+│       │   │   │   │   │   ├── GuiKeybinds.class
+│       │   │   │   │   │   ├── GuiTextElement.class
+│       │   │   │   │   │   ├── GuiTexturePicker$1.class
+│       │   │   │   │   │   ├── GuiTexturePicker$GuiFRLListElement.class
+│       │   │   │   │   │   ├── GuiTexturePicker.class
+│       │   │   │   │   │   ├── GuiTrackpadElement.class
+│       │   │   │   │   │   ├── GuiTransformations$GuiRelativeTrackpadElement.class
+│       │   │   │   │   │   ├── GuiTransformations$GuiStaticTransformOrientation.class
+│       │   │   │   │   │   ├── GuiTransformations$TransformOrientation.class
+│       │   │   │   │   │   ├── GuiTransformations.class
+│       │   │   │   │   │   ├── color
+│       │   │   │   │   │   │   ├── GuiColorPalette.class
+│       │   │   │   │   │   │   └── GuiColorPicker.class
+│       │   │   │   │   │   └── multiskin
+│       │   │   │   │   │       └── GuiMultiSkinEditor.class
+│       │   │   │   │   ├── keyframes
+│       │   │   │   │   │   ├── GuiDopeSheet.class
+│       │   │   │   │   │   ├── GuiGraphView.class
+│       │   │   │   │   │   ├── GuiKeyframeElement.class
+│       │   │   │   │   │   ├── GuiKeyframeInterpolationsList.class
+│       │   │   │   │   │   ├── GuiKeyframesEditor.class
+│       │   │   │   │   │   ├── GuiSheet.class
+│       │   │   │   │   │   ├── IAxisConverter.class
+│       │   │   │   │   │   ├── Selection$1.class
+│       │   │   │   │   │   ├── Selection$2.class
+│       │   │   │   │   │   ├── Selection$3.class
+│       │   │   │   │   │   ├── Selection$4.class
+│       │   │   │   │   │   └── Selection.class
+│       │   │   │   │   ├── list
+│       │   │   │   │   │   ├── GuiFolderEntryListElement.class
+│       │   │   │   │   │   ├── GuiInterpolationList.class
+│       │   │   │   │   │   ├── GuiLabelListElement.class
+│       │   │   │   │   │   ├── GuiLabelSearchListElement.class
+│       │   │   │   │   │   ├── GuiListElement$Pair.class
+│       │   │   │   │   │   ├── GuiListElement.class
+│       │   │   │   │   │   ├── GuiResourceLocationListElement.class
+│       │   │   │   │   │   ├── GuiSearchListElement.class
+│       │   │   │   │   │   ├── GuiStringListElement.class
+│       │   │   │   │   │   └── GuiStringSearchListElement.class
+│       │   │   │   │   ├── modals
+│       │   │   │   │   │   ├── GuiConfirmModal.class
+│       │   │   │   │   │   ├── GuiListModal.class
+│       │   │   │   │   │   ├── GuiMessageModal.class
+│       │   │   │   │   │   ├── GuiModal.class
+│       │   │   │   │   │   ├── GuiPopUpModal.class
+│       │   │   │   │   │   └── GuiPromptModal.class
+│       │   │   │   │   └── utils
+│       │   │   │   │       ├── GuiCanvas.class
+│       │   │   │   │       ├── GuiCanvasEditor.class
+│       │   │   │   │       ├── GuiContext.class
+│       │   │   │   │       ├── GuiDraw.class
+│       │   │   │   │       ├── GuiDrawable.class
+│       │   │   │   │       ├── GuiInventoryElement.class
+│       │   │   │   │       ├── GuiLabel.class
+│       │   │   │   │       ├── GuiViewportStack.class
+│       │   │   │   │       ├── ITextColoring.class
+│       │   │   │   │       ├── IViewportStack.class
+│       │   │   │   │       └── IconContainer.class
+│       │   │   │   └── tooltips
+│       │   │   │       ├── GuiTooltip.class
+│       │   │   │       ├── ITooltip.class
+│       │   │   │       ├── InterpolationTooltip.class
+│       │   │   │       ├── LabelTooltip.class
+│       │   │   │       └── styles
+│       │   │   │           ├── DarkTooltipStyle.class
+│       │   │   │           ├── LightTooltipStyle.class
+│       │   │   │           └── TooltipStyle.class
+│       │   │   ├── mclib
+│       │   │   │   ├── GuiAbstractDashboard.class
+│       │   │   │   ├── GuiDashboard.class
+│       │   │   │   ├── GuiDashboardPanel.class
+│       │   │   │   ├── GuiDashboardPanels.class
+│       │   │   │   ├── GuiDebugPanel$1.class
+│       │   │   │   ├── GuiDebugPanel$2.class
+│       │   │   │   ├── GuiDebugPanel.class
+│       │   │   │   ├── GuiGraphPanel$GuiGraphCanvas.class
+│       │   │   │   └── GuiGraphPanel.class
+│       │   │   └── utils
+│       │   │       ├── Area.class
+│       │   │       ├── Elements.class
+│       │   │       ├── GuiUtils$1.class
+│       │   │       ├── GuiUtils.class
+│       │   │       ├── Icon.class
+│       │   │       ├── IconRegistry.class
+│       │   │       ├── Icons.class
+│       │   │       ├── InterpolationRenderer.class
+│       │   │       ├── Keybind.class
+│       │   │       ├── KeybindConfig.class
+│       │   │       ├── KeybindManager.class
+│       │   │       ├── Label.class
+│       │   │       ├── ModKeybinds$KeybindCategory.class
+│       │   │       ├── ModKeybinds.class
+│       │   │       ├── Scale.class
+│       │   │       ├── ScrollArea.class
+│       │   │       ├── ScrollDirection$1.class
+│       │   │       ├── ScrollDirection$2.class
+│       │   │       ├── ScrollDirection.class
+│       │   │       ├── TabCompleter.class
+│       │   │       ├── ValueColors.class
+│       │   │       ├── keys
+│       │   │       │   ├── CompoundKey.class
+│       │   │       │   ├── IKey.class
+│       │   │       │   ├── KeyParser$KeyJsonAdapter.class
+│       │   │       │   ├── KeyParser.class
+│       │   │       │   ├── LangKey.class
+│       │   │       │   └── StringKey.class
+│       │   │       └── resizers
+│       │   │           ├── AutomaticResizer.class
+│       │   │           ├── BaseResizer.class
+│       │   │           ├── ChildResizer.class
+│       │   │           ├── DecoratedResizer.class
+│       │   │           ├── Flex$Measure.class
+│       │   │           ├── Flex$Unit.class
+│       │   │           ├── Flex.class
+│       │   │           ├── IParentResizer.class
+│       │   │           ├── IResizer.class
+│       │   │           ├── Margin.class
+│       │   │           ├── constraint
+│       │   │           │   └── BoundsResizer.class
+│       │   │           └── layout
+│       │   │               ├── ColumnResizer.class
+│       │   │               ├── GridResizer.class
+│       │   │               └── RowResizer.class
+│       │   └── render
+│       │       ├── RenderLightmap.class
+│       │       └── VertexBuilder.class
+│       ├── commands
+│       │   ├── CommandCheats.class
+│       │   ├── CommandMcLib.class
+│       │   ├── McCommandBase.class
+│       │   ├── SubCommandBase.class
+│       │   ├── config
+│       │   │   ├── SubCommandConfig.class
+│       │   │   ├── SubCommandConfigBase.class
+│       │   │   ├── SubCommandConfigPrint.class
+│       │   │   └── SubCommandConfigSet.class
+│       │   └── utils
+│       │       └── L10n.class
+│       ├── config
+│       │   ├── Config.class
+│       │   ├── ConfigBuilder.class
+│       │   ├── ConfigHandler.class
+│       │   ├── ConfigManager.class
+│       │   ├── ConfigThread.class
+│       │   ├── gui
+│       │   │   └── GuiConfigPanel.class
+│       │   ├── json
+│       │   │   └── ConfigParser.class
+│       │   └── values
+│       │       ├── GenericBaseValue.class
+│       │       ├── GenericNumberValue.class
+│       │       ├── GenericValue.class
+│       │       ├── IConfigGuiProvider.class
+│       │       ├── IServerValue.class
+│       │       ├── Value.class
+│       │       ├── ValueBoolean.class
+│       │       ├── ValueColor.class
+│       │       ├── ValueDouble.class
+│       │       ├── ValueFloat.class
+│       │       ├── ValueGUI.class
+│       │       ├── ValueInt$Subtype.class
+│       │       ├── ValueInt.class
+│       │       ├── ValueItemSlots.class
+│       │       ├── ValueLong.class
+│       │       ├── ValueRL.class
+│       │       ├── ValueRotationOrder.class
+│       │       └── ValueString.class
+│       ├── core
+│       │   ├── McLibCM.class
+│       │   ├── McLibCMClassTransformer.class
+│       │   ├── McLibCMInfo.class
+│       │   └── transformers
+│       │       ├── CPacketCustomPayloadTransformer.class
+│       │       ├── EntityRendererTransformer.class
+│       │       ├── PacketBufferTransformer.class
+│       │       └── SimpleReloadableResourceManagerTransformer.class
+│       ├── events
+│       │   ├── EventHandler.class
+│       │   ├── MultiskinProcessedEvent.class
+│       │   ├── RegisterConfigEvent.class
+│       │   ├── RegisterDashboardPanels.class
+│       │   ├── RegisterPermissionsEvent.class
+│       │   ├── RemoveDashboardPanels.class
+│       │   ├── RenderOverlayEvent$Post.class
+│       │   ├── RenderOverlayEvent$Pre.class
+│       │   ├── RenderOverlayEvent.class
+│       │   └── RenderingHandler.class
+│       ├── math
+│       │   ├── Constant.class
+│       │   ├── Group.class
+│       │   ├── IValue.class
+│       │   ├── MathBuilder.class
+│       │   ├── Negate.class
+│       │   ├── Negative.class
+│       │   ├── Operation$1.class
+│       │   ├── Operation$10.class
+│       │   ├── Operation$11.class
+│       │   ├── Operation$12.class
+│       │   ├── Operation$13.class
+│       │   ├── Operation$14.class
+│       │   ├── Operation$15.class
+│       │   ├── Operation$16.class
+│       │   ├── Operation$17.class
+│       │   ├── Operation$18.class
+│       │   ├── Operation$19.class
+│       │   ├── Operation$2.class
+│       │   ├── Operation$3.class
+│       │   ├── Operation$4.class
+│       │   ├── Operation$5.class
+│       │   ├── Operation$6.class
+│       │   ├── Operation$7.class
+│       │   ├── Operation$8.class
+│       │   ├── Operation$9.class
+│       │   ├── Operation.class
+│       │   ├── Operator.class
+│       │   ├── Ternary.class
+│       │   ├── Variable.class
+│       │   ├── Wrapper.class
+│       │   ├── functions
+│       │   │   ├── Function.class
+│       │   │   ├── NNFunction.class
+│       │   │   ├── NSFunction.class
+│       │   │   ├── SNFunction.class
+│       │   │   ├── SSFunction.class
+│       │   │   ├── classic
+│       │   │   │   ├── Abs.class
+│       │   │   │   ├── Exp.class
+│       │   │   │   ├── Ln.class
+│       │   │   │   ├── Mod.class
+│       │   │   │   ├── Pow.class
+│       │   │   │   └── Sqrt.class
+│       │   │   ├── limit
+│       │   │   │   ├── Clamp.class
+│       │   │   │   ├── Max.class
+│       │   │   │   └── Min.class
+│       │   │   ├── rounding
+│       │   │   │   ├── Ceil.class
+│       │   │   │   ├── Floor.class
+│       │   │   │   ├── Round.class
+│       │   │   │   └── Trunc.class
+│       │   │   ├── string
+│       │   │   │   ├── StringContains.class
+│       │   │   │   ├── StringEndsWith.class
+│       │   │   │   └── StringStartsWith.class
+│       │   │   ├── trig
+│       │   │   │   ├── Acos.class
+│       │   │   │   ├── Asin.class
+│       │   │   │   ├── Atan.class
+│       │   │   │   ├── Atan2.class
+│       │   │   │   ├── Cos.class
+│       │   │   │   └── Sin.class
+│       │   │   └── utility
+│       │   │       ├── DieRoll.class
+│       │   │       ├── DieRollInteger.class
+│       │   │       ├── HermiteBlend.class
+│       │   │       ├── Lerp.class
+│       │   │       ├── LerpRotate.class
+│       │   │       ├── Random.class
+│       │   │       └── RandomInteger.class
+│       │   └── molang
+│       │       ├── MolangException.class
+│       │       ├── MolangParser.class
+│       │       ├── expressions
+│       │       │   ├── MolangAssignment.class
+│       │       │   ├── MolangExpression.class
+│       │       │   ├── MolangMultiStatement.class
+│       │       │   └── MolangValue.class
+│       │       └── functions
+│       │           ├── AcosDegrees.class
+│       │           ├── AsinDegrees.class
+│       │           ├── Atan2Degrees.class
+│       │           ├── AtanDegrees.class
+│       │           ├── CosDegrees.class
+│       │           └── SinDegrees.class
+│       ├── network
+│       │   ├── AbstractDispatcher.class
+│       │   ├── AbstractMessageHandler.class
+│       │   ├── ClientMessageHandler$1.class
+│       │   ├── ClientMessageHandler.class
+│       │   ├── IByteBufSerializable.class
+│       │   ├── INBTSerializable.class
+│       │   ├── ServerMessageHandler$1.class
+│       │   ├── ServerMessageHandler.class
+│       │   └── mclib
+│       │       ├── Dispatcher$1.class
+│       │       ├── Dispatcher.class
+│       │       ├── client
+│       │       │   ├── AbstractClientHandlerAnswer.class
+│       │       │   ├── ClientHandlerAnswer.class
+│       │       │   ├── ClientHandlerBoolean.class
+│       │       │   ├── ClientHandlerConfig.class
+│       │       │   ├── ClientHandlerConfirm$1.class
+│       │       │   ├── ClientHandlerConfirm$GUI.class
+│       │       │   └── ClientHandlerConfirm.class
+│       │       ├── common
+│       │       │   ├── IAnswerRequest.class
+│       │       │   ├── PacketAnswer.class
+│       │       │   ├── PacketBoolean.class
+│       │       │   ├── PacketConfig.class
+│       │       │   ├── PacketConfirm.class
+│       │       │   ├── PacketDropItem.class
+│       │       │   ├── PacketRequestConfigs.class
+│       │       │   └── PacketRequestPermission.class
+│       │       └── server
+│       │           ├── ServerHandlerConfig.class
+│       │           ├── ServerHandlerConfirm.class
+│       │           ├── ServerHandlerDropItem.class
+│       │           ├── ServerHandlerPermissionRequest.class
+│       │           └── ServerHandlerRequestConfigs.class
+│       ├── permissions
+│       │   ├── McLibPermissions.class
+│       │   ├── PermissionCategory.class
+│       │   ├── PermissionFactory.class
+│       │   └── PermissionUtils.class
+│       └── utils
+│           ├── BetterLightsHelper$1.class
+│           ├── BetterLightsHelper$ReflectionElement.class
+│           ├── BetterLightsHelper.class
+│           ├── ByteBufUtils.class
+│           ├── Color.class
+│           ├── ColorUtils.class
+│           ├── Consumers.class
+│           ├── Direction.class
+│           ├── DummyEntity.class
+│           ├── EntityUtils.class
+│           ├── ForgeUtils.class
+│           ├── ICopy.class
+│           ├── IInterpolation.class
+│           ├── ITransformationObject.class
+│           ├── Interpolation$1.class
+│           ├── Interpolation$10.class
+│           ├── Interpolation$11.class
+│           ├── Interpolation$12.class
+│           ├── Interpolation$13.class
+│           ├── Interpolation$14.class
+│           ├── Interpolation$15.class
+│           ├── Interpolation$16.class
+│           ├── Interpolation$17.class
+│           ├── Interpolation$18.class
+│           ├── Interpolation$19.class
+│           ├── Interpolation$2.class
+│           ├── Interpolation$20.class
+│           ├── Interpolation$21.class
+│           ├── Interpolation$22.class
+│           ├── Interpolation$23.class
+│           ├── Interpolation$24.class
+│           ├── Interpolation$25.class
+│           ├── Interpolation$26.class
+│           ├── Interpolation$27.class
+│           ├── Interpolation$28.class
+│           ├── Interpolation$29.class
+│           ├── Interpolation$3.class
+│           ├── Interpolation$30.class
+│           ├── Interpolation$31.class
+│           ├── Interpolation$4.class
+│           ├── Interpolation$5.class
+│           ├── Interpolation$6.class
+│           ├── Interpolation$7.class
+│           ├── Interpolation$8.class
+│           ├── Interpolation$9.class
+│           ├── Interpolation.class
+│           ├── Interpolations.class
+│           ├── JsonUtils.class
+│           ├── Keys.class
+│           ├── LatencyTimer.class
+│           ├── MathUtils.class
+│           ├── MatrixUtils$1.class
+│           ├── MatrixUtils$MatrixMajor.class
+│           ├── MatrixUtils$RotationOrder.class
+│           ├── MatrixUtils$Transformation.class
+│           ├── MatrixUtils.class
+│           ├── ModHelper.class
+│           ├── NBTUtils.class
+│           ├── OpHelper.class
+│           ├── OptifineHelper$1.class
+│           ├── OptifineHelper$ReflectionElement.class
+│           ├── OptifineHelper.class
+│           ├── Patterns.class
+│           ├── PayloadASM.class
+│           ├── RayTracing$1.class
+│           ├── RayTracing.class
+│           ├── ReflectionUtils.class
+│           ├── RenderingUtils$1.class
+│           ├── RenderingUtils$Facing.class
+│           ├── RenderingUtils.class
+│           ├── Rewriter.class
+│           ├── TextUtils.class
+│           ├── Timer.class
+│           ├── ValueSerializer$Value.class
+│           ├── ValueSerializer.class
+│           ├── binary
+│           │   ├── BinaryChunk.class
+│           │   └── BinaryReader.class
+│           ├── coremod
+│           │   ├── ClassMethodTransformer.class
+│           │   ├── ClassTransformer.class
+│           │   └── CoreClassTransformer.class
+│           ├── files
+│           │   ├── EntrySorter.class
+│           │   ├── FileTree.class
+│           │   ├── GlobalTree.class
+│           │   └── entries
+│           │       ├── AbstractEntry.class
+│           │       ├── FileEntry.class
+│           │       ├── FolderEntry.class
+│           │       └── FolderImageEntry.class
+│           ├── keyframes
+│           │   ├── Keyframe.class
+│           │   ├── KeyframeChannel.class
+│           │   ├── KeyframeEasing.class
+│           │   ├── KeyframeInterpolation$1.class
+│           │   ├── KeyframeInterpolation$10.class
+│           │   ├── KeyframeInterpolation$11.class
+│           │   ├── KeyframeInterpolation$12.class
+│           │   ├── KeyframeInterpolation$13.class
+│           │   ├── KeyframeInterpolation$14.class
+│           │   ├── KeyframeInterpolation$2.class
+│           │   ├── KeyframeInterpolation$3.class
+│           │   ├── KeyframeInterpolation$4.class
+│           │   ├── KeyframeInterpolation$5.class
+│           │   ├── KeyframeInterpolation$6.class
+│           │   ├── KeyframeInterpolation$7.class
+│           │   ├── KeyframeInterpolation$8.class
+│           │   ├── KeyframeInterpolation$9.class
+│           │   ├── KeyframeInterpolation.class
+│           │   ├── KeyframeInterpolations$1.class
+│           │   ├── KeyframeInterpolations$2.class
+│           │   ├── KeyframeInterpolations$3.class
+│           │   └── KeyframeInterpolations.class
+│           ├── resources
+│           │   ├── FilteredResourceLocation.class
+│           │   ├── IResourceTransformer.class
+│           │   ├── IWritableLocation.class
+│           │   ├── MultiResourceLocation.class
+│           │   ├── MultiResourceLocationManager$Pair.class
+│           │   ├── MultiResourceLocationManager.class
+│           │   ├── MultiskinThread.class
+│           │   ├── PixelAccessor$1.class
+│           │   ├── PixelAccessor$2.class
+│           │   ├── PixelAccessor.class
+│           │   ├── Pixels.class
+│           │   ├── RLUtils.class
+│           │   ├── TextureLocation.class
+│           │   └── TextureProcessor.class
+│           ├── shaders
+│           │   └── Shader.class
+│           ├── undo
+│           │   ├── CompoundUndo.class
+│           │   ├── IUndo.class
+│           │   ├── IUndoListener.class
+│           │   └── UndoManager.class
+│           └── wav
+│               ├── Wave.class
+│               ├── WavePlayer.class
+│               ├── WaveReader.class
+│               ├── Waveform$WaveformSprite.class
+│               └── Waveform.class
+└── mcmod.info
