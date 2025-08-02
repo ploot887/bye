@@ -1,0 +1,949 @@
+blockbuster-2.7.1-1.12.2
+├── META-INF
+│   ├── MANIFEST.MF
+│   ├── fml_cache_annotation.json
+│   └── fml_cache_class_versions.json
+├── assets
+│   └── blockbuster
+│       ├── blockstates
+│       │   ├── dim_green.json
+│       │   ├── director.json
+│       │   ├── green.json
+│       │   ├── model.json
+│       │   └── model_static.json
+│       ├── lang
+│       │   ├── en_US.lang
+│       │   ├── fr_FR.lang
+│       │   ├── pt_BR.lang
+│       │   ├── ru_RU.lang
+│       │   ├── uk_UA.lang
+│       │   ├── zh_CN.lang
+│       │   └── zh_TW.lang
+│       ├── models
+│       │   ├── block
+│       │   │   ├── director_empty.json
+│       │   │   ├── director_play.json
+│       │   │   ├── director_stop.json
+│       │   │   ├── green.json
+│       │   │   ├── model.json
+│       │   │   └── model_static.json
+│       │   ├── entity
+│       │   │   ├── alex.json
+│       │   │   ├── alex_3d.json
+│       │   │   ├── cape.json
+│       │   │   ├── empty.json
+│       │   │   ├── eyes
+│       │   │   │   ├── 3.0.json
+│       │   │   │   ├── 3.0_1px.json
+│       │   │   │   ├── 3.1
+│       │   │   │   │   ├── base.obj
+│       │   │   │   │   ├── eyebrow_l.obj
+│       │   │   │   │   ├── eyebrow_r.obj
+│       │   │   │   │   ├── eyelid_lb.obj
+│       │   │   │   │   ├── eyelid_lt.obj
+│       │   │   │   │   ├── eyelid_rb.obj
+│       │   │   │   │   └── eyelid_rt.obj
+│       │   │   │   ├── 3.1.json
+│       │   │   │   ├── 3.1_simple
+│       │   │   │   │   ├── base.obj
+│       │   │   │   │   ├── eyebrow_l.obj
+│       │   │   │   │   ├── eyebrow_r.obj
+│       │   │   │   │   ├── eyelid_lb.obj
+│       │   │   │   │   ├── eyelid_lt.obj
+│       │   │   │   │   ├── eyelid_rb.obj
+│       │   │   │   │   └── eyelid_rt.obj
+│       │   │   │   ├── 3.1_simple.json
+│       │   │   │   ├── alex.json
+│       │   │   │   ├── fred.json
+│       │   │   │   ├── head.json
+│       │   │   │   ├── head_3d.json
+│       │   │   │   └── steve.json
+│       │   │   ├── fred.json
+│       │   │   ├── fred_3d.json
+│       │   │   ├── mchorse
+│       │   │   │   └── head.json
+│       │   │   ├── steve.json
+│       │   │   └── steve_3d.json
+│       │   ├── item
+│       │   │   ├── actor_config.json
+│       │   │   ├── dim_green.json
+│       │   │   ├── director.json
+│       │   │   ├── green.json
+│       │   │   ├── gun.json
+│       │   │   ├── model.json
+│       │   │   ├── model_static.json
+│       │   │   ├── playback.json
+│       │   │   └── register.json
+│       │   ├── user
+│       │   │   └── README.txt
+│       │   └── user.json
+│       ├── optifine
+│       │   └── dynamic_lights.properties
+│       ├── particles
+│       │   ├── default_fire.json
+│       │   ├── default_magic.json
+│       │   ├── default_rain.json
+│       │   └── default_snow.json
+│       └── textures
+│           ├── blocks
+│           │   ├── black.png
+│           │   ├── blue.png
+│           │   ├── cyan.png
+│           │   ├── director_block_blank.png
+│           │   ├── director_block_current_start.png
+│           │   ├── director_block_current_stop.png
+│           │   ├── director_block_side.png
+│           │   ├── director_block_start.png
+│           │   ├── director_block_stop.png
+│           │   ├── green.png
+│           │   ├── model_side.png
+│           │   ├── purple.png
+│           │   ├── red.png
+│           │   ├── white.png
+│           │   └── yellow.png
+│           ├── default_particles.png
+│           ├── entity
+│           │   ├── actor.png
+│           │   ├── cape.png
+│           │   ├── eye_masks
+│           │   │   ├── 1px.png
+│           │   │   ├── 1px_l.2px_r.png
+│           │   │   ├── 2px.png
+│           │   │   └── 2px_l.1px_r.png
+│           │   ├── eyes
+│           │   │   ├── alex.png
+│           │   │   └── steve.png
+│           │   ├── mchorse
+│           │   │   ├── eyes.png
+│           │   │   ├── head.png
+│           │   │   └── skin.png
+│           │   ├── pixel.png
+│           │   └── skin_masks
+│           │       ├── body.png
+│           │       ├── bodywear.png
+│           │       ├── full_body.png
+│           │       ├── full_head.png
+│           │       ├── full_left_arm.png
+│           │       ├── full_left_leg.png
+│           │       ├── full_right_arm.png
+│           │       ├── full_right_leg.png
+│           │       ├── head.png
+│           │       ├── left_arm.png
+│           │       ├── left_armwear.png
+│           │       ├── left_leg.png
+│           │       ├── left_legwear.png
+│           │       ├── outer_head.png
+│           │       ├── right_arm.png
+│           │       ├── right_armwear.png
+│           │       ├── right_leg.png
+│           │       └── right_legwear.png
+│           ├── gui
+│           │   ├── icon.png
+│           │   ├── icons.png
+│           │   └── recording.png
+│           ├── items
+│           │   ├── actor_config.png
+│           │   ├── playback.png
+│           │   └── register.png
+│           ├── light_bulb.png
+│           ├── light_bulb0.png
+│           ├── light_bulb1.png
+│           ├── light_bulb10.png
+│           ├── light_bulb11.png
+│           ├── light_bulb12.png
+│           ├── light_bulb13.png
+│           ├── light_bulb14.png
+│           ├── light_bulb15.png
+│           ├── light_bulb2.png
+│           ├── light_bulb3.png
+│           ├── light_bulb4.png
+│           ├── light_bulb5.png
+│           ├── light_bulb6.png
+│           ├── light_bulb7.png
+│           ├── light_bulb8.png
+│           ├── light_bulb9.png
+│           ├── spotlight.png
+│           └── spotlight_light.png
+├── at
+│   └── dhyan
+│       └── open_imaging
+│           ├── GifDecoder$BitReader.class
+│           ├── GifDecoder$CodeTable.class
+│           ├── GifDecoder$GifFrame.class
+│           ├── GifDecoder$GifImage.class
+│           └── GifDecoder.class
+├── mchorse
+│   ├── blockbuster
+│   │   ├── Blockbuster.class
+│   │   ├── ClientProxy.class
+│   │   ├── CommonProxy.class
+│   │   ├── aperture
+│   │   │   ├── CameraHandler$1.class
+│   │   │   ├── CameraHandler$CameraGUIHandler.class
+│   │   │   ├── CameraHandler.class
+│   │   │   ├── camera
+│   │   │   │   └── modifiers
+│   │   │   │       └── TrackerModifier.class
+│   │   │   ├── gui
+│   │   │   │   ├── GuiDirectorConfigOptions.class
+│   │   │   │   ├── GuiPlayback.class
+│   │   │   │   └── panels
+│   │   │   │       └── modifiers
+│   │   │   │           └── GuiTrackerModifierPanel.class
+│   │   │   └── network
+│   │   │       ├── client
+│   │   │       │   ├── ClientHandlerCameraProfileList.class
+│   │   │       │   └── ClientHandlerSceneLength.class
+│   │   │       ├── common
+│   │   │       │   ├── PacketAudioShift.class
+│   │   │       │   ├── PacketRequestLength.class
+│   │   │       │   ├── PacketRequestProfiles.class
+│   │   │       │   └── PacketSceneLength.class
+│   │   │       └── server
+│   │   │           ├── ServerHandlerAudioShift.class
+│   │   │           ├── ServerHandlerRequestLength.class
+│   │   │           └── ServerHandlerRequestProfiles.class
+│   │   ├── api
+│   │   │   ├── Model.class
+│   │   │   ├── ModelClientHandler.class
+│   │   │   ├── ModelHandler.class
+│   │   │   ├── ModelLimb$ArmorSlot.class
+│   │   │   ├── ModelLimb$Holding.class
+│   │   │   ├── ModelLimb.class
+│   │   │   ├── ModelPack$1.class
+│   │   │   ├── ModelPack.class
+│   │   │   ├── ModelPose.class
+│   │   │   ├── ModelTransform.class
+│   │   │   ├── ModelUserItem.class
+│   │   │   ├── formats
+│   │   │   │   ├── IMeshes.class
+│   │   │   │   ├── Mesh.class
+│   │   │   │   ├── obj
+│   │   │   │   │   ├── MeshOBJ.class
+│   │   │   │   │   ├── MeshesOBJ.class
+│   │   │   │   │   ├── OBJDataMesh.class
+│   │   │   │   │   ├── OBJFace.class
+│   │   │   │   │   ├── OBJIndexGroup.class
+│   │   │   │   │   ├── OBJMaterial.class
+│   │   │   │   │   ├── OBJParser.class
+│   │   │   │   │   ├── ShapeKey.class
+│   │   │   │   │   ├── Vector2f.class
+│   │   │   │   │   └── Vector3f.class
+│   │   │   │   └── vox
+│   │   │   │       ├── MeshesVOX.class
+│   │   │   │       ├── VoxBuilder.class
+│   │   │   │       ├── VoxDocument$LimbNode.class
+│   │   │   │       ├── VoxDocument.class
+│   │   │   │       ├── VoxReader.class
+│   │   │   │       └── data
+│   │   │   │           ├── Vox.class
+│   │   │   │           ├── VoxBaseNode.class
+│   │   │   │           ├── VoxChunk.class
+│   │   │   │           ├── VoxGroup.class
+│   │   │   │           ├── VoxLayer.class
+│   │   │   │           ├── VoxShape$Attribute.class
+│   │   │   │           ├── VoxShape.class
+│   │   │   │           ├── VoxTexture.class
+│   │   │   │           └── VoxTransform.class
+│   │   │   ├── json
+│   │   │   │   ├── ModelAdapter$1.class
+│   │   │   │   ├── ModelAdapter.class
+│   │   │   │   ├── ModelLimbAdapter.class
+│   │   │   │   └── ModelPoseAdapter.class
+│   │   │   ├── loaders
+│   │   │   │   ├── IModelLoader.class
+│   │   │   │   ├── ModelLoaderJSON.class
+│   │   │   │   ├── ModelLoaderOBJ.class
+│   │   │   │   ├── ModelLoaderVOX.class
+│   │   │   │   └── lazy
+│   │   │   │       ├── IModelLazyLoader.class
+│   │   │   │       ├── ModelLazyLoaderJSON.class
+│   │   │   │       ├── ModelLazyLoaderOBJ.class
+│   │   │   │       └── ModelLazyLoaderVOX.class
+│   │   │   └── resource
+│   │   │       ├── FileEntry.class
+│   │   │       ├── IResourceEntry.class
+│   │   │       └── StreamEntry.class
+│   │   ├── audio
+│   │   │   ├── AudioFile.class
+│   │   │   ├── AudioHandler$1.class
+│   │   │   ├── AudioHandler.class
+│   │   │   ├── AudioLibrary$1.class
+│   │   │   ├── AudioLibrary.class
+│   │   │   ├── AudioRenderer.class
+│   │   │   └── AudioState.class
+│   │   ├── capabilities
+│   │   │   ├── CapabilityHandler.class
+│   │   │   └── recording
+│   │   │       ├── IRecording.class
+│   │   │       ├── Recording$ItemInfo.class
+│   │   │       ├── Recording.class
+│   │   │       ├── RecordingProvider.class
+│   │   │       └── RecordingStorage.class
+│   │   ├── client
+│   │   │   ├── ActorsPack.class
+│   │   │   ├── KeyboardHandler.class
+│   │   │   ├── RenderingHandler.class
+│   │   │   ├── SkinHandler.class
+│   │   │   ├── gui
+│   │   │   │   ├── GuiActor.class
+│   │   │   │   ├── GuiGun$GuiGunPanels.class
+│   │   │   │   ├── GuiGun$GuiProjectileModelRenderer.class
+│   │   │   │   ├── GuiGun.class
+│   │   │   │   ├── GuiImmersiveEditor$GuiOuterScreen.class
+│   │   │   │   ├── GuiImmersiveEditor.class
+│   │   │   │   ├── GuiImmersiveMorphMenu$PreviewMorph.class
+│   │   │   │   ├── GuiImmersiveMorphMenu.class
+│   │   │   │   ├── GuiRecordingOverlay.class
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── GuiBlockbusterPanel.class
+│   │   │   │   │   ├── GuiBlockbusterPanels.class
+│   │   │   │   │   ├── GuiFirstTime$Overlay.class
+│   │   │   │   │   ├── GuiFirstTime.class
+│   │   │   │   │   └── panels
+│   │   │   │   │       ├── GuiBlockList.class
+│   │   │   │   │       ├── GuiTextureManagerPanel$GuiSearchResourceLocationList.class
+│   │   │   │   │       ├── GuiTextureManagerPanel.class
+│   │   │   │   │       ├── model_block
+│   │   │   │   │       │   ├── GuiModelBlockList.class
+│   │   │   │   │       │   ├── GuiModelBlockPanel$GuiModelBlockTransformations.class
+│   │   │   │   │       │   └── GuiModelBlockPanel.class
+│   │   │   │   │       ├── model_editor
+│   │   │   │   │       │   ├── GuiModelEditorPanel$GuiModelPoseTransformations.class
+│   │   │   │   │       │   ├── GuiModelEditorPanel.class
+│   │   │   │   │       │   ├── tabs
+│   │   │   │   │       │   │   ├── GuiAnchorModal.class
+│   │   │   │   │       │   │   ├── GuiModelEditorTab.class
+│   │   │   │   │       │   │   ├── GuiModelLimbs.class
+│   │   │   │   │       │   │   ├── GuiModelList.class
+│   │   │   │   │       │   │   ├── GuiModelOptions.class
+│   │   │   │   │       │   │   └── GuiModelPoses.class
+│   │   │   │   │       │   └── utils
+│   │   │   │   │       │       ├── GuiBBModelRenderer.class
+│   │   │   │   │       │       ├── GuiPoseTransformations.class
+│   │   │   │   │       │       ├── GuiTextureCanvas.class
+│   │   │   │   │       │       ├── GuiThreeElement.class
+│   │   │   │   │       │       ├── GuiTwoElement.class
+│   │   │   │   │       │       └── ModelUtils.class
+│   │   │   │   │       ├── recording_editor
+│   │   │   │   │       │   ├── GuiRecordList.class
+│   │   │   │   │       │   ├── GuiRecordTimeline$Selection.class
+│   │   │   │   │       │   ├── GuiRecordTimeline.class
+│   │   │   │   │       │   ├── GuiRecordingEditorPanel.class
+│   │   │   │   │       │   └── actions
+│   │   │   │   │       │       ├── GuiActionPanel.class
+│   │   │   │   │       │       ├── GuiBlockActionPanel.class
+│   │   │   │   │       │       ├── GuiBreakBlockActionPanel.class
+│   │   │   │   │       │       ├── GuiBreakBlockAnimationPanel.class
+│   │   │   │   │       │       ├── GuiChatActionPanel.class
+│   │   │   │   │       │       ├── GuiCommandActionPanel.class
+│   │   │   │   │       │       ├── GuiDamageActionPanel.class
+│   │   │   │   │       │       ├── GuiDropActionPanel.class
+│   │   │   │   │       │       ├── GuiEmptyActionPanel.class
+│   │   │   │   │       │       ├── GuiEquipActionPanel.class
+│   │   │   │   │       │       ├── GuiHotbarChangeActionPanel.class
+│   │   │   │   │       │       ├── GuiInteractEntityActionPanel.class
+│   │   │   │   │       │       ├── GuiItemUseActionPanel.class
+│   │   │   │   │       │       ├── GuiItemUseBlockActionPanel.class
+│   │   │   │   │       │       ├── GuiMorphActionPanel.class
+│   │   │   │   │       │       ├── GuiMountingActionPanel.class
+│   │   │   │   │       │       ├── GuiPlaceBlockActionPanel.class
+│   │   │   │   │       │       └── GuiShootArrowActionPanel.class
+│   │   │   │   │       ├── scene
+│   │   │   │   │       │   ├── GuiReplaySelector.class
+│   │   │   │   │       │   ├── GuiSceneManager.class
+│   │   │   │   │       │   └── GuiScenePanel.class
+│   │   │   │   │       └── snowstorm
+│   │   │   │   │           ├── GuiSectionManager.class
+│   │   │   │   │           ├── GuiSnowstorm.class
+│   │   │   │   │           ├── GuiSnowstormRenderer.class
+│   │   │   │   │           ├── sections
+│   │   │   │   │           │   ├── GuiSnowstormAppearanceSection.class
+│   │   │   │   │           │   ├── GuiSnowstormCollisionAppearanceSection.class
+│   │   │   │   │           │   ├── GuiSnowstormCollisionLightingSection.class
+│   │   │   │   │           │   ├── GuiSnowstormCollisionSection.class
+│   │   │   │   │           │   ├── GuiSnowstormComponentSection.class
+│   │   │   │   │           │   ├── GuiSnowstormExpirationSection$GuiBlocksSection.class
+│   │   │   │   │           │   ├── GuiSnowstormExpirationSection.class
+│   │   │   │   │           │   ├── GuiSnowstormGeneralSection.class
+│   │   │   │   │           │   ├── GuiSnowstormInitializationSection.class
+│   │   │   │   │           │   ├── GuiSnowstormLifetimeSection.class
+│   │   │   │   │           │   ├── GuiSnowstormLightingSection.class
+│   │   │   │   │           │   ├── GuiSnowstormModeSection.class
+│   │   │   │   │           │   ├── GuiSnowstormMotionSection.class
+│   │   │   │   │           │   ├── GuiSnowstormParticleMorphSection.class
+│   │   │   │   │           │   ├── GuiSnowstormRateSection.class
+│   │   │   │   │           │   ├── GuiSnowstormSection.class
+│   │   │   │   │           │   ├── GuiSnowstormShapeSection$GuiDirectionSection.class
+│   │   │   │   │           │   ├── GuiSnowstormShapeSection.class
+│   │   │   │   │           │   └── GuiSnowstormSpaceSection.class
+│   │   │   │   │           └── utils
+│   │   │   │   │               └── GuiGradientEditor.class
+│   │   │   │   └── utils
+│   │   │   │       └── GuiShapeKeysEditor.class
+│   │   │   ├── model
+│   │   │   │   ├── ModelCustom$1.class
+│   │   │   │   ├── ModelCustom.class
+│   │   │   │   ├── ModelCustomRenderer.class
+│   │   │   │   ├── ModelOBJRenderer$OBJDisplayList.class
+│   │   │   │   ├── ModelOBJRenderer.class
+│   │   │   │   ├── ModelVoxRenderer.class
+│   │   │   │   └── parsing
+│   │   │   │       ├── IModelCustom.class
+│   │   │   │       ├── ModelExporter.class
+│   │   │   │       ├── ModelExporterOBJ$1.class
+│   │   │   │       ├── ModelExporterOBJ$Mesh.class
+│   │   │   │       ├── ModelExporterOBJ.class
+│   │   │   │       ├── ModelExtrudedLayer$CachedImage.class
+│   │   │   │       ├── ModelExtrudedLayer$Chunk.class
+│   │   │   │       ├── ModelExtrudedLayer$Offset.class
+│   │   │   │       ├── ModelExtrudedLayer.class
+│   │   │   │       └── ModelParser.class
+│   │   │   ├── particles
+│   │   │   │   ├── BedrockCurve.class
+│   │   │   │   ├── BedrockCurveType.class
+│   │   │   │   ├── BedrockLibrary.class
+│   │   │   │   ├── BedrockMaterial$1.class
+│   │   │   │   ├── BedrockMaterial.class
+│   │   │   │   ├── BedrockScheme.class
+│   │   │   │   ├── BedrockSchemeJsonAdapter.class
+│   │   │   │   ├── components
+│   │   │   │   │   ├── BedrockComponentBase.class
+│   │   │   │   │   ├── IComponentBase.class
+│   │   │   │   │   ├── IComponentEmitterInitialize.class
+│   │   │   │   │   ├── IComponentEmitterUpdate.class
+│   │   │   │   │   ├── IComponentParticleInitialize.class
+│   │   │   │   │   ├── IComponentParticleMorphRender.class
+│   │   │   │   │   ├── IComponentParticleRender.class
+│   │   │   │   │   ├── IComponentParticleUpdate.class
+│   │   │   │   │   ├── IComponentRenderBase.class
+│   │   │   │   │   ├── appearance
+│   │   │   │   │   │   ├── BedrockComponentAppearanceBillboard$1.class
+│   │   │   │   │   │   ├── BedrockComponentAppearanceBillboard.class
+│   │   │   │   │   │   ├── BedrockComponentAppearanceLighting.class
+│   │   │   │   │   │   ├── BedrockComponentAppearanceTinting.class
+│   │   │   │   │   │   ├── BedrockComponentCollisionAppearance.class
+│   │   │   │   │   │   ├── BedrockComponentCollisionTinting.class
+│   │   │   │   │   │   ├── BedrockComponentParticleMorph.class
+│   │   │   │   │   │   ├── CameraFacing.class
+│   │   │   │   │   │   ├── Tint$Gradient$ColorStop.class
+│   │   │   │   │   │   ├── Tint$Gradient.class
+│   │   │   │   │   │   ├── Tint$Solid.class
+│   │   │   │   │   │   └── Tint.class
+│   │   │   │   │   ├── expiration
+│   │   │   │   │   │   ├── BedrockComponentExpireBlocks.class
+│   │   │   │   │   │   ├── BedrockComponentExpireInBlocks.class
+│   │   │   │   │   │   ├── BedrockComponentExpireNotInBlocks.class
+│   │   │   │   │   │   ├── BedrockComponentKillPlane.class
+│   │   │   │   │   │   └── BedrockComponentParticleLifetime.class
+│   │   │   │   │   ├── lifetime
+│   │   │   │   │   │   ├── BedrockComponentLifetime.class
+│   │   │   │   │   │   ├── BedrockComponentLifetimeExpression.class
+│   │   │   │   │   │   ├── BedrockComponentLifetimeLooping.class
+│   │   │   │   │   │   └── BedrockComponentLifetimeOnce.class
+│   │   │   │   │   ├── meta
+│   │   │   │   │   │   ├── BedrockComponentInitialization.class
+│   │   │   │   │   │   └── BedrockComponentLocalSpace.class
+│   │   │   │   │   ├── motion
+│   │   │   │   │   │   ├── BedrockComponentInitialSpeed.class
+│   │   │   │   │   │   ├── BedrockComponentInitialSpin.class
+│   │   │   │   │   │   ├── BedrockComponentMotion.class
+│   │   │   │   │   │   ├── BedrockComponentMotionCollision$CollisionOffset.class
+│   │   │   │   │   │   ├── BedrockComponentMotionCollision.class
+│   │   │   │   │   │   ├── BedrockComponentMotionDynamic.class
+│   │   │   │   │   │   └── BedrockComponentMotionParametric.class
+│   │   │   │   │   ├── rate
+│   │   │   │   │   │   ├── BedrockComponentRate.class
+│   │   │   │   │   │   ├── BedrockComponentRateInstant.class
+│   │   │   │   │   │   └── BedrockComponentRateSteady.class
+│   │   │   │   │   └── shape
+│   │   │   │   │       ├── BedrockComponentShapeBase.class
+│   │   │   │   │       ├── BedrockComponentShapeBox.class
+│   │   │   │   │       ├── BedrockComponentShapeDisc.class
+│   │   │   │   │       ├── BedrockComponentShapeEntityAABB.class
+│   │   │   │   │       ├── BedrockComponentShapePoint.class
+│   │   │   │   │       ├── BedrockComponentShapeSphere.class
+│   │   │   │   │       ├── ShapeDirection$Inwards.class
+│   │   │   │   │       ├── ShapeDirection$Vector.class
+│   │   │   │   │       └── ShapeDirection.class
+│   │   │   │   └── emitter
+│   │   │   │       ├── BedrockEmitter.class
+│   │   │   │       └── BedrockParticle.class
+│   │   │   ├── render
+│   │   │   │   ├── GunMiscRender.class
+│   │   │   │   ├── IRenderLast.class
+│   │   │   │   ├── RenderActor$FactoryActor.class
+│   │   │   │   ├── RenderActor.class
+│   │   │   │   ├── RenderCustomModel.class
+│   │   │   │   ├── RenderExpirableDummy$FactoryExpirableDummy.class
+│   │   │   │   ├── RenderExpirableDummy.class
+│   │   │   │   ├── RenderGunProjectile$FactoryGunProjectile.class
+│   │   │   │   ├── RenderGunProjectile.class
+│   │   │   │   ├── layer
+│   │   │   │   │   ├── LayerHeldItem$HeldModel.class
+│   │   │   │   │   └── LayerHeldItem.class
+│   │   │   │   └── tileentity
+│   │   │   │       ├── TileEntityDirectorRenderer.class
+│   │   │   │       ├── TileEntityGunItemStackRenderer$GunEntry.class
+│   │   │   │       ├── TileEntityGunItemStackRenderer.class
+│   │   │   │       ├── TileEntityModelItemStackRenderer$TEModel.class
+│   │   │   │       ├── TileEntityModelItemStackRenderer.class
+│   │   │   │       ├── TileEntityModelRenderer$RenderShadow.class
+│   │   │   │       └── TileEntityModelRenderer.class
+│   │   │   └── textures
+│   │   │       ├── GifFrameTexture.class
+│   │   │       ├── GifProcessThread.class
+│   │   │       ├── GifTexture.class
+│   │   │       ├── MipmapTexture.class
+│   │   │       └── URLDownloadThread.class
+│   │   ├── commands
+│   │   │   ├── BBCommandBase.class
+│   │   │   ├── CommandAction.class
+│   │   │   ├── CommandDamage.class
+│   │   │   ├── CommandItemNBT.class
+│   │   │   ├── CommandModel.class
+│   │   │   ├── CommandModelBlock.class
+│   │   │   ├── CommandMount.class
+│   │   │   ├── CommandOnHead.class
+│   │   │   ├── CommandRecord.class
+│   │   │   ├── CommandScene.class
+│   │   │   ├── CommandSpectate.class
+│   │   │   ├── action
+│   │   │   │   ├── SubCommandActionAppend.class
+│   │   │   │   ├── SubCommandActionCancel.class
+│   │   │   │   ├── SubCommandActionClear.class
+│   │   │   │   ├── SubCommandActionPlay.class
+│   │   │   │   ├── SubCommandActionRecord.class
+│   │   │   │   ├── SubCommandActionRequest.class
+│   │   │   │   └── SubCommandActionStop.class
+│   │   │   ├── model
+│   │   │   │   ├── SubCommandModelClear.class
+│   │   │   │   ├── SubCommandModelClearStructures.class
+│   │   │   │   ├── SubCommandModelCombine$CombineThread.class
+│   │   │   │   ├── SubCommandModelCombine.class
+│   │   │   │   ├── SubCommandModelConvertSkin.class
+│   │   │   │   ├── SubCommandModelExport.class
+│   │   │   │   ├── SubCommandModelExportObj.class
+│   │   │   │   ├── SubCommandModelReload.class
+│   │   │   │   └── SubCommandModelReport.class
+│   │   │   ├── modelblock
+│   │   │   │   ├── SubCommandModelBlockBase.class
+│   │   │   │   ├── SubCommandModelBlockMorph.class
+│   │   │   │   └── SubCommandModelBlockProperty.class
+│   │   │   └── record
+│   │   │       ├── SubCommandRecordAdd.class
+│   │   │       ├── SubCommandRecordApply.class
+│   │   │       ├── SubCommandRecordBase.class
+│   │   │       ├── SubCommandRecordCalculateBodyYaw.class
+│   │   │       ├── SubCommandRecordCamera.class
+│   │   │       ├── SubCommandRecordClean.class
+│   │   │       ├── SubCommandRecordCreate.class
+│   │   │       ├── SubCommandRecordCut.class
+│   │   │       ├── SubCommandRecordDelete.class
+│   │   │       ├── SubCommandRecordDupe.class
+│   │   │       ├── SubCommandRecordErase.class
+│   │   │       ├── SubCommandRecordFade.class
+│   │   │       ├── SubCommandRecordFill.class
+│   │   │       ├── SubCommandRecordFlip.class
+│   │   │       ├── SubCommandRecordGet.class
+│   │   │       ├── SubCommandRecordInfo.class
+│   │   │       ├── SubCommandRecordMerge.class
+│   │   │       ├── SubCommandRecordOrigin.class
+│   │   │       ├── SubCommandRecordProcess.class
+│   │   │       ├── SubCommandRecordProlong.class
+│   │   │       ├── SubCommandRecordRemove.class
+│   │   │       ├── SubCommandRecordRemoveAll.class
+│   │   │       ├── SubCommandRecordRemoveBodyYaw.class
+│   │   │       ├── SubCommandRecordRename.class
+│   │   │       ├── SubCommandRecordRestore.class
+│   │   │       ├── SubCommandRecordReverse.class
+│   │   │       ├── SubCommandRecordSearch.class
+│   │   │       └── SubCommandRecordTP.class
+│   │   ├── common
+│   │   │   ├── BlockbusterPermissions.class
+│   │   │   ├── BlockbusterTab.class
+│   │   │   ├── GuiHandler.class
+│   │   │   ├── GunProps.class
+│   │   │   ├── OrientedBB$Corner.class
+│   │   │   ├── OrientedBB.class
+│   │   │   ├── block
+│   │   │   │   ├── BlockDimGreen.class
+│   │   │   │   ├── BlockDirector.class
+│   │   │   │   ├── BlockGreen$ChromaColor.class
+│   │   │   │   ├── BlockGreen.class
+│   │   │   │   └── BlockModel.class
+│   │   │   ├── entity
+│   │   │   │   ├── EntityActor$EntityFakePlayer.class
+│   │   │   │   ├── EntityActor.class
+│   │   │   │   ├── EntityGunProjectile.class
+│   │   │   │   └── ExpirableDummyEntity.class
+│   │   │   ├── item
+│   │   │   │   ├── ItemActorConfig.class
+│   │   │   │   ├── ItemBlockGreen.class
+│   │   │   │   ├── ItemBlockModel.class
+│   │   │   │   ├── ItemGun$GunState.class
+│   │   │   │   ├── ItemGun.class
+│   │   │   │   ├── ItemPlayback.class
+│   │   │   │   └── ItemRegister.class
+│   │   │   └── tileentity
+│   │   │       ├── TileEntityDirector.class
+│   │   │       ├── TileEntityModel.class
+│   │   │       └── TileEntityModelSettings.class
+│   │   ├── core
+│   │   │   ├── BBCoreClassTransformer.class
+│   │   │   ├── BBCoreMod.class
+│   │   │   ├── BBCoreModInfo.class
+│   │   │   └── transformers
+│   │   │       ├── EntityItemTransformer.class
+│   │   │       ├── EntityRendererTransformer.class
+│   │   │       ├── EntityTransformationUtilsTransformer.class
+│   │   │       ├── EntityTransformer.class
+│   │   │       ├── InventoryPlayerTransformer.class
+│   │   │       ├── RenderEntityItemTransformer.class
+│   │   │       ├── RenderGlobalTransformer.class
+│   │   │       ├── RenderItemTransformer.class
+│   │   │       ├── RenderPlayerTransformer.class
+│   │   │       └── WorldTransformer.class
+│   │   ├── events
+│   │   │   ├── ActionPanelRegisterEvent.class
+│   │   │   ├── GunShootHandler.class
+│   │   │   ├── PlayerHandler.class
+│   │   │   ├── TickHandler$IRunnable.class
+│   │   │   ├── TickHandler$TickIdentifier.class
+│   │   │   ├── TickHandler$WorldClientTickEvent.class
+│   │   │   └── TickHandler.class
+│   │   ├── network
+│   │   │   ├── Dispatcher$1.class
+│   │   │   ├── Dispatcher.class
+│   │   │   ├── client
+│   │   │   │   ├── ClientHandlerActorPause.class
+│   │   │   │   ├── ClientHandlerCaption.class
+│   │   │   │   ├── ClientHandlerModifyActor.class
+│   │   │   │   ├── ClientHandlerModifyModelBlock.class
+│   │   │   │   ├── ClientHandlerPlaybackButton.class
+│   │   │   │   ├── ClientHandlerStructure$FakeWorld.class
+│   │   │   │   ├── ClientHandlerStructure.class
+│   │   │   │   ├── ClientHandlerStructureList.class
+│   │   │   │   ├── audio
+│   │   │   │   │   └── ClientHandlerAudio.class
+│   │   │   │   ├── guns
+│   │   │   │   │   ├── ClientHandlerGunInfo.class
+│   │   │   │   │   ├── ClientHandlerGunInteract.class
+│   │   │   │   │   ├── ClientHandlerGunProjectile.class
+│   │   │   │   │   ├── ClientHandlerGunProjectileVanish.class
+│   │   │   │   │   ├── ClientHandlerGunShot.class
+│   │   │   │   │   └── ClientHandlerGunStuck.class
+│   │   │   │   ├── recording
+│   │   │   │   │   ├── ClientHandlerApplyFrame.class
+│   │   │   │   │   ├── ClientHandlerFramesLoad.class
+│   │   │   │   │   ├── ClientHandlerPlayback.class
+│   │   │   │   │   ├── ClientHandlerPlayerRecording.class
+│   │   │   │   │   ├── ClientHandlerRequestedFrames.class
+│   │   │   │   │   ├── ClientHandlerSyncTick.class
+│   │   │   │   │   ├── ClientHandlerUnloadFrames.class
+│   │   │   │   │   ├── ClientHandlerUnloadRecordings.class
+│   │   │   │   │   └── actions
+│   │   │   │   │       ├── ClientHandlerActionList.class
+│   │   │   │   │       └── ClientHandlerActions.class
+│   │   │   │   └── scene
+│   │   │   │       ├── ClientHandlerSceneCast.class
+│   │   │   │       ├── ClientHandlerSceneManage.class
+│   │   │   │       └── ClientHandlerScenes.class
+│   │   │   ├── common
+│   │   │   │   ├── PacketActorPause.class
+│   │   │   │   ├── PacketCaption.class
+│   │   │   │   ├── PacketDamageControlCheck.class
+│   │   │   │   ├── PacketModifyActor.class
+│   │   │   │   ├── PacketModifyModelBlock.class
+│   │   │   │   ├── PacketPlaybackButton.class
+│   │   │   │   ├── PacketReloadModels.class
+│   │   │   │   ├── audio
+│   │   │   │   │   └── PacketAudio.class
+│   │   │   │   ├── guns
+│   │   │   │   │   ├── PacketGunInfo.class
+│   │   │   │   │   ├── PacketGunInteract.class
+│   │   │   │   │   ├── PacketGunProjectile.class
+│   │   │   │   │   ├── PacketGunProjectileVanish.class
+│   │   │   │   │   ├── PacketGunReloading.class
+│   │   │   │   │   ├── PacketGunShot.class
+│   │   │   │   │   ├── PacketGunStuck.class
+│   │   │   │   │   └── PacketZoomCommand.class
+│   │   │   │   ├── recording
+│   │   │   │   │   ├── PacketApplyFrame.class
+│   │   │   │   │   ├── PacketFrames.class
+│   │   │   │   │   ├── PacketFramesChunk.class
+│   │   │   │   │   ├── PacketFramesLoad$State.class
+│   │   │   │   │   ├── PacketFramesLoad.class
+│   │   │   │   │   ├── PacketFramesOverwrite.class
+│   │   │   │   │   ├── PacketPlayback.class
+│   │   │   │   │   ├── PacketPlayerRecording.class
+│   │   │   │   │   ├── PacketRequestFrames.class
+│   │   │   │   │   ├── PacketRequestRecording.class
+│   │   │   │   │   ├── PacketRequestedFrames.class
+│   │   │   │   │   ├── PacketSyncTick.class
+│   │   │   │   │   ├── PacketUnloadFrames.class
+│   │   │   │   │   ├── PacketUnloadRecordings.class
+│   │   │   │   │   ├── PacketUpdatePlayerData.class
+│   │   │   │   │   └── actions
+│   │   │   │   │       ├── PacketActionList.class
+│   │   │   │   │       ├── PacketActions.class
+│   │   │   │   │       ├── PacketActionsChange$Type.class
+│   │   │   │   │       ├── PacketActionsChange.class
+│   │   │   │   │       ├── PacketRequestAction.class
+│   │   │   │   │       └── PacketRequestActions.class
+│   │   │   │   ├── scene
+│   │   │   │   │   ├── PacketRequestScenes.class
+│   │   │   │   │   ├── PacketScene.class
+│   │   │   │   │   ├── PacketSceneCast.class
+│   │   │   │   │   ├── PacketSceneManage.class
+│   │   │   │   │   ├── PacketScenePause.class
+│   │   │   │   │   ├── PacketScenePlayback.class
+│   │   │   │   │   ├── PacketSceneRecord.class
+│   │   │   │   │   ├── PacketSceneRequestCast.class
+│   │   │   │   │   ├── PacketScenes.class
+│   │   │   │   │   └── sync
+│   │   │   │   │       ├── PacketSceneGoto.class
+│   │   │   │   │       └── PacketScenePlay.class
+│   │   │   │   └── structure
+│   │   │   │       ├── PacketStructure.class
+│   │   │   │       ├── PacketStructureList.class
+│   │   │   │       ├── PacketStructureListRequest.class
+│   │   │   │       └── PacketStructureRequest.class
+│   │   │   └── server
+│   │   │       ├── ServerHandlerApplyFrame.class
+│   │   │       ├── ServerHandlerDamageControlCheck.class
+│   │   │       ├── ServerHandlerModifyActor.class
+│   │   │       ├── ServerHandlerModifyModelBlock.class
+│   │   │       ├── ServerHandlerPlaybackButton.class
+│   │   │       ├── ServerHandlerReloadModels.class
+│   │   │       ├── ServerHandlerStructureListRequest.class
+│   │   │       ├── ServerHandlerStructureRequest.class
+│   │   │       ├── gun
+│   │   │       │   ├── ServerHandlerGunInfo.class
+│   │   │       │   ├── ServerHandlerGunInteract.class
+│   │   │       │   ├── ServerHandlerGunReloading.class
+│   │   │       │   └── ServerHandlerZoomCommand.class
+│   │   │       ├── recording
+│   │   │       │   ├── ServerHandlerFramesChunk.class
+│   │   │       │   ├── ServerHandlerFramesOverwrite$OverwriteIdentifier.class
+│   │   │       │   ├── ServerHandlerFramesOverwrite.class
+│   │   │       │   ├── ServerHandlerPlayback.class
+│   │   │       │   ├── ServerHandlerRequestFrames.class
+│   │   │       │   ├── ServerHandlerRequestRecording.class
+│   │   │       │   ├── ServerHandlerUpdatePlayerData.class
+│   │   │       │   └── actions
+│   │   │       │       ├── ServerHandlerActionsChange$1.class
+│   │   │       │       ├── ServerHandlerActionsChange.class
+│   │   │       │       ├── ServerHandlerRequestAction.class
+│   │   │       │       └── ServerHandlerRequestActions.class
+│   │   │       └── scene
+│   │   │           ├── ServerHandlerRequestScenes.class
+│   │   │           ├── ServerHandlerSceneCast.class
+│   │   │           ├── ServerHandlerSceneManage.class
+│   │   │           ├── ServerHandlerScenePause.class
+│   │   │           ├── ServerHandlerScenePlayback.class
+│   │   │           ├── ServerHandlerSceneRecord.class
+│   │   │           ├── ServerHandlerSceneRequestCast.class
+│   │   │           └── sync
+│   │   │               ├── ServerHandlerSceneGoto.class
+│   │   │               └── ServerHandlerScenePlay.class
+│   │   ├── recording
+│   │   │   ├── LTHelper.class
+│   │   │   ├── MPMHelper.class
+│   │   │   ├── RecordManager.class
+│   │   │   ├── RecordPlayer.class
+│   │   │   ├── RecordRecorder.class
+│   │   │   ├── RecordUtils$1.class
+│   │   │   ├── RecordUtils.class
+│   │   │   ├── ScheduledRecording.class
+│   │   │   ├── Utils.class
+│   │   │   ├── actions
+│   │   │   │   ├── Action.class
+│   │   │   │   ├── ActionRegistry.class
+│   │   │   │   ├── AttackAction.class
+│   │   │   │   ├── BreakBlockAction.class
+│   │   │   │   ├── BreakBlockAnimation.class
+│   │   │   │   ├── ChatAction.class
+│   │   │   │   ├── CloseContainerAction.class
+│   │   │   │   ├── CommandAction$CommandSender.class
+│   │   │   │   ├── CommandAction.class
+│   │   │   │   ├── DamageAction.class
+│   │   │   │   ├── DropAction.class
+│   │   │   │   ├── EquipAction.class
+│   │   │   │   ├── HotbarChangeAction.class
+│   │   │   │   ├── InteractBlockAction.class
+│   │   │   │   ├── InteractEntityAction.class
+│   │   │   │   ├── ItemUseAction.class
+│   │   │   │   ├── ItemUseBlockAction.class
+│   │   │   │   ├── MorphAction.class
+│   │   │   │   ├── MorphActionAction.class
+│   │   │   │   ├── MountingAction.class
+│   │   │   │   ├── PlaceBlockAction.class
+│   │   │   │   ├── ShootArrowAction.class
+│   │   │   │   ├── ShootGunAction.class
+│   │   │   │   └── SwipeAction.class
+│   │   │   ├── capturing
+│   │   │   │   ├── ActionHandler.class
+│   │   │   │   ├── DamageControl$BlockEntry.class
+│   │   │   │   ├── DamageControl.class
+│   │   │   │   ├── DamageControlManager.class
+│   │   │   │   ├── FrameHandler.class
+│   │   │   │   ├── PlayerTracker.class
+│   │   │   │   └── WorldEventListener.class
+│   │   │   ├── data
+│   │   │   │   ├── Frame$RotationChannel.class
+│   │   │   │   ├── Frame.class
+│   │   │   │   ├── FrameChunk.class
+│   │   │   │   ├── Mode.class
+│   │   │   │   ├── Record$FoundAction.class
+│   │   │   │   ├── Record$MorphType.class
+│   │   │   │   └── Record.class
+│   │   │   └── scene
+│   │   │       ├── Replay.class
+│   │   │       ├── Scene$PlayerState.class
+│   │   │       ├── Scene.class
+│   │   │       ├── SceneLocation.class
+│   │   │       ├── SceneManager.class
+│   │   │       ├── SceneSender.class
+│   │   │       └── fake
+│   │   │           ├── FakeChannel$1.class
+│   │   │           ├── FakeChannel$FalseBool.class
+│   │   │           ├── FakeChannel.class
+│   │   │           ├── FakeConfig.class
+│   │   │           ├── FakeContext.class
+│   │   │           ├── FakeFMLAttribute.class
+│   │   │           └── FakeProtocol.class
+│   │   └── utils
+│   │       ├── EntityTransformationUtils.class
+│   │       ├── EntityUtils.class
+│   │       ├── ExpirableRunnable.class
+│   │       ├── NBTUtils.class
+│   │       ├── ResourcePackUtils.class
+│   │       ├── TextureUtils.class
+│   │       └── mclib
+│   │           ├── BBIcons.class
+│   │           ├── BlockbusterJarTree.class
+│   │           ├── BlockbusterResourceTransformer.class
+│   │           ├── BlockbusterTree.class
+│   │           ├── GifFolder.class
+│   │           ├── GifFrameFile.class
+│   │           ├── ImageFolder.class
+│   │           ├── ValueAudioButtons.class
+│   │           ├── ValueMainButtons.class
+│   │           └── coremod
+│   │               ├── ClassMethodTransformer.class
+│   │               ├── ClassTransformer.class
+│   │               └── CoreClassTransformer.class
+│   ├── blockbuster_pack
+│   │   ├── BlockbusterFactory.class
+│   │   ├── BlockbusterSection$BlockbusterCategory.class
+│   │   ├── BlockbusterSection.class
+│   │   ├── MetamorphHandler.class
+│   │   ├── client
+│   │   │   ├── gui
+│   │   │   │   ├── GuiBetterLightsMorph$GuiBetterLightsMessage.class
+│   │   │   │   ├── GuiBetterLightsMorph$GuiBetterLightsMorphPanel.class
+│   │   │   │   ├── GuiBetterLightsMorph.class
+│   │   │   │   ├── GuiCustomBodyPartEditor.class
+│   │   │   │   ├── GuiCustomMorph$GuiMaterialsPanel.class
+│   │   │   │   ├── GuiCustomMorph$GuiModelRendererBodyPart.class
+│   │   │   │   ├── GuiCustomMorph$GuiShapeKeyListElement.class
+│   │   │   │   ├── GuiCustomMorph.class
+│   │   │   │   ├── GuiImageMorph$1.class
+│   │   │   │   ├── GuiImageMorph$GuiImageMorphPanel.class
+│   │   │   │   ├── GuiImageMorph.class
+│   │   │   │   ├── GuiLightMorph$GuiLightMorphPanel.class
+│   │   │   │   ├── GuiLightMorph.class
+│   │   │   │   ├── GuiParticleMorph$GuiParticleMorphGeneralPanel.class
+│   │   │   │   ├── GuiParticleMorph$GuiParticleMorphMorphPanel.class
+│   │   │   │   ├── GuiParticleMorph.class
+│   │   │   │   ├── GuiPosePanel.class
+│   │   │   │   ├── GuiRecordMorph$GuiRecordMorphPanel.class
+│   │   │   │   ├── GuiRecordMorph.class
+│   │   │   │   ├── GuiSequencerMorph$GuiSequenceEntryList.class
+│   │   │   │   ├── GuiSequencerMorph$GuiSequencerMorphPanel.class
+│   │   │   │   ├── GuiSequencerMorph$GuiSequencerMorphRenderer.class
+│   │   │   │   ├── GuiSequencerMorph.class
+│   │   │   │   ├── GuiSnowstormMorph$GuiSnowstormVariablesMorphPanel.class
+│   │   │   │   ├── GuiSnowstormMorph.class
+│   │   │   │   ├── GuiStructureMorph$GuiBiomeList.class
+│   │   │   │   ├── GuiStructureMorph$GuiSearchBiomeList.class
+│   │   │   │   ├── GuiStructureMorph$GuiStructureMorphPanel.class
+│   │   │   │   ├── GuiStructureMorph.class
+│   │   │   │   ├── GuiTrackerMorph$GuiTrackerMorphPanel.class
+│   │   │   │   ├── GuiTrackerMorph.class
+│   │   │   │   ├── ILimbSelector.class
+│   │   │   │   └── trackers
+│   │   │   │       ├── GuiBaseTracker.class
+│   │   │   │       └── GuiMorphTracking.class
+│   │   │   ├── model
+│   │   │   │   └── ModelElytra.class
+│   │   │   └── render
+│   │   │       ├── RenderCustomActor.class
+│   │   │       └── layers
+│   │   │           ├── LayerActorArmor.class
+│   │   │           ├── LayerBodyPart.class
+│   │   │           ├── LayerCustomHead.class
+│   │   │           └── LayerElytra.class
+│   │   ├── morphs
+│   │   │   ├── BetterLightsMorph$BetterLightsAnimation.class
+│   │   │   ├── BetterLightsMorph$BetterLightsProperties.class
+│   │   │   ├── BetterLightsMorph$BetterLightsRunnable.class
+│   │   │   ├── BetterLightsMorph$FieldHierarchy.class
+│   │   │   ├── BetterLightsMorph.class
+│   │   │   ├── BetterLightsMorphTemplate.class
+│   │   │   ├── CustomMorph$LimbProperties.class
+│   │   │   ├── CustomMorph$ModelProperties.class
+│   │   │   ├── CustomMorph$PoseAnimation.class
+│   │   │   ├── CustomMorph.class
+│   │   │   ├── ImageMorph$ImageAnimation.class
+│   │   │   ├── ImageMorph$ImageProperties.class
+│   │   │   ├── ImageMorph.class
+│   │   │   ├── LightMorph$LightAnimation.class
+│   │   │   ├── LightMorph$LightProperties.class
+│   │   │   ├── LightMorph$State.class
+│   │   │   ├── LightMorph.class
+│   │   │   ├── ParticleMorph$1.class
+│   │   │   ├── ParticleMorph$MorphParticle$MovementType$1.class
+│   │   │   ├── ParticleMorph$MorphParticle$MovementType$2.class
+│   │   │   ├── ParticleMorph$MorphParticle$MovementType$3.class
+│   │   │   ├── ParticleMorph$MorphParticle$MovementType.class
+│   │   │   ├── ParticleMorph$MorphParticle.class
+│   │   │   ├── ParticleMorph$ParticleMode.class
+│   │   │   ├── ParticleMorph.class
+│   │   │   ├── RecordMorph.class
+│   │   │   ├── SequencerMorph$FoundMorph.class
+│   │   │   ├── SequencerMorph$SequenceEntry.class
+│   │   │   ├── SequencerMorph.class
+│   │   │   ├── SnowstormMorph.class
+│   │   │   ├── StructureMorph.class
+│   │   │   ├── TrackerMorph.class
+│   │   │   └── structure
+│   │   │       ├── StructureAnimation.class
+│   │   │       ├── StructureRenderer.class
+│   │   │       └── StructureStatus.class
+│   │   └── trackers
+│   │       ├── ApertureCamera.class
+│   │       ├── BaseTracker.class
+│   │       ├── MorphTracker$1.class
+│   │       ├── MorphTracker$ApertureTracker.class
+│   │       ├── MorphTracker$MinemaTracker.class
+│   │       ├── MorphTracker$Tracker.class
+│   │       ├── MorphTracker.class
+│   │       └── TrackerRegistry.class
+│   └── metamorph
+│       └── client
+│           └── model
+│               └── custom
+│                   ├── ModelBat.class
+│                   ├── ModelBlaze.class
+│                   ├── ModelChicken.class
+│                   ├── ModelExtended.class
+│                   ├── ModelGhast.class
+│                   ├── ModelGuardian.class
+│                   ├── ModelIronGolem.class
+│                   ├── ModelSilverfish.class
+│                   ├── ModelSlime.class
+│                   ├── ModelSpider.class
+│                   └── ModelSquid.class
+└── mcmod.info
