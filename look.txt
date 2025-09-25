@@ -1,0 +1,554 @@
+2. Атрибуты и базовые характеристики Camel
+Метод createCamelAttributes():
+
+Max Health: 32.0
+Movement Speed (GENERIC_MOVEMENT_SPEED): 0.09f
+HORSE_JUMP_STRENGTH: 0.42f
+Дополнительно из AbstractHorseEntity базовый набор (через наследование) расширяется jumpStrength/лошадиную механику.
+
+3. DataTracker поля верблюда
+CamelEntity:
+
+DASHING (Boolean)
+LAST_POSE_TICK (Long)
+Семантика LAST_POSE_TICK:
+
+Отрицательное значение => верблюд сейчас в позе сидя (SITTING).
+dataTracker.get(LAST_POSE_TICK) < 0L → isSitting() = true.
+Абсолютное значение используется для вычисления дельты времени с последнего начала перехода позы.
+getLastPoseTickDelta():
+
+Code
+delta = world.getTime() - Math.abs(LAST_POSE_TICK)
+Переходные длительности (см. isChangingPose):
+
+Если верблюд сидит (LAST_POSE_TICK < 0) → длительность анимации (standing→sitting) 40 тиков.
+Если стоИт → длительность (sitting→standing) 52 тика.
+4. Поза: SITTING / STANDING, переходы, логика
+Методы:
+
+startSitting():
+pose = SITTING
+LAST_POSE_TICK = -worldTime (отрицание кодирует «сидит» и момент начала)
+Звук: ENTITY_CAMEL_SIT
+startStanding():
+pose = STANDING
+LAST_POSE_TICK = worldTime
+Звук: ENTITY_CAMEL_STAND
+setStanding():
+pose = STANDING
+initLastPoseTick(time) → LAST_POSE_TICK = max(0, time - 52 - 1) чтобы “сбросить” переход (верблюд считается уже стабильно стоящим).
+Условия смены:
+
+При попытке двигаться (если сидит и не в переходе) — в tickControlled → startStanding().
+Если сидит и попал в воду (isTouchingWater) → принудительный setStanding().
+shouldUpdateSittingAnimations() проверяет расхождение между знаком LAST_POSE_TICK и результатом isSitting() (фаза перехода).
+shouldPlaySittingTransitionAnimation() — если верблюд сидит и delta < 40 и delta >= 0 (первая фаза после начала сидения).
+
+5. Размеры и высота глаз
+Базовые размеры Camel (из EntityType.CAMEL) уменьшаются в сидячей позе на 1.43f по высоте:
+Code
+private static final EntityDimensions SITTING_DIMENSIONS =
+    EntityDimensions.changing(EntityType.CAMEL.getWidth(), EntityType.CAMEL.getHeight() - 1.43f);
+При SITTING используются эти размеры, масштабируемые getScaleFactor() (у детёнышей 0.5, у взрослых 1.0).
+Высота глаз: ActiveEyeHeight = dimensions.height - 0.1f
+getMountedHeightOffset():
+Code
+height = dimensions(height of SITTING or STANDING) - (isBaby ? 0.35f : 0.6f)
+6. Состояние неподвижности
+isStationary() = isSitting() || isChangingPose()
+
+Пока стационарен:
+
+Обнуляется пользовательский input движения (возвращает Vec3d.ZERO).
+Повороты контроллера от пассажира не меняют pitch/yaw модели (возвращается собственный).
+clampHeadYaw(entity, 30°) – ограничение поворота головы максимум ±30°.
+Нельзя прыгать: canJump() запрещает, если stationary.
+7. Движение, рывок (Dash) и прыжок
+7.1. Dash (используется система прыжка AbstractHorseEntity, но переопределено)
+Переменные:
+
+dashCooldown (int), стартует = 55 при рывке.
+Dashing флаг: DASHING.
+Логика в jump(float strength, Vec3d movementInput):
+
+Code
+d = HORSE_JUMP_STRENGTH_attribute * jumpVelocityMultiplier + jumpBoostVelocityModifier
+horizontal_add = normalize( rotationVector.xz ) * (22.2222f * strength) * movementSpeedAttribute * velocityMultiplier
+vertical_add = (1.4285f * strength) * d
+velocity += (horizontal_add.x, vertical_add, horizontal_add.z)
+dashCooldown = 55
+setDashing(true)
+Числа:
+
+22.2222f — горизонтальный множитель скорости рывка (по сути ~20 * (1/0.9) масштаб?).
+1.4285f — вертикальный множитель (подъём).
+jumpStrength параметр (strength) из шкалы зарядки (0..1).
+Атрибут Movement Speed (0.09 базово) добавляет масштаб.
+Отключение флага Dashing:
+
+Code
+if (isDashing() && dashCooldown < 50 && (onGround || touchingWater || hasVehicle()))
+    setDashing(false);
+→ Dashing активно только первые 5 тиков (когда cooldown от 55 до 50 включительно). После этого визуальная/анимационная часть прекращается, хотя dashCooldown ещё «перезаряжается».
+
+Когда dashCooldown достигнет 0 → звук ENTITY_CAMEL_DASH_READY.
+
+Методы Jump интерфейса:
+
+startJumping(int height) → звук ENTITY_CAMEL_DASH, setDashing(true)
+getJumpCooldown() возвращает dashCooldown.
+7.2. Дополнительный бонус скорости в седле
+getSaddledSpeed(PlayerEntity controllingPlayer):
+
+Code
+bonus = (player.isSprinting() && getJumpCooldown() == 0) ? 0.1f : 0.0f
+speed = movementSpeedAttribute + bonus
+То есть +0.1f к базовой скорости (при спринте и отсутствии перезарядки рывка).
+
+7.3. Блокировка движения при сидении
+В travel(Vec3d movementInput) при stationary + onGround зануляется горизонтальная скорость.
+
+8. Смещения пассажиров и привязи (поводок)
+8.1. Смещение атаки всадника
+getPassengerAttackYOffset() = 0.5
+
+8.2. Посадка пассажиров (updatePassengerPosition)
+Индекс пассажира i:
+i == 0 (первый) → bl = true
+Базовое смещение Z = 0.5f
+Если пассажиров > 1:
+Второй: f = -0.7f
+Если пассажир — AnimalEntity: добавить +0.2f
+Высота g рассчитывается методом method_45346(bl, 0.0f) + passenger.getHeightOffset(). Если сущность удалена — g = 0.01f (страховка).
+Поворот пассажиров фиксируется: clampPassengerYaw(); yaw пассажира ограничивается ±160° от тела верблюда.
+8.3. Формула method_45346(boolean primaryRider, float partialTicks)
+Обозначения:
+
+Code
+d = getMountedHeightOffset()
+scale = getScaleFactor()
+g = scale * 1.43
+h = g - scale*0.2
+i = g - h = scale*0.2
+bl2 = isChangingPose()
+bl3 = isSitting()
+При переходе:
+
+Общая длительность j:
+Если сидит (bl3) → j = 40
+Иначе (встаёт) → j = 52
+Порог k и коэффициент l:
+Если bl3 (сидящий переход – вероятно standing→sitting):
+k = 28
+l = primaryRider ? 0.5f : 0.1f
+Иначе (встаёт):
+k = primaryRider ? 24 : 32
+l = primaryRider ? 0.6f : 0.35f
+m = clamp( lastPoseTickDelta + partialTicks, 0, j )
+bl4 = m < k
+n2 = bl4 ? m/k : (m-k)/(j-k) (нормированная доля фазы)
+
+o = g - l*h
+
+Далее интерполяции (две фазы: первая до k, вторая после):
+
+Если верблюд садится (bl3):
+Code
+d += lerp(n2,
+          bl4 ? g : o,
+          bl4 ? o : i)
+Если встаёт:
+Code
+d += lerp(n2,
+          bl4 ? i - g : i - o,
+          bl4 ? i - o : 0.0)
+После завершения перехода, если сидит и не меняет позу:
+
+Code
+d += i
+Итогом method_45346 возвращает итоговую добавку высоты посадки для rider.
+
+8.4. Смещение для поводка (Leash)
+getLeashOffset(tickDelta):
+
+Code
+Vec3d(
+  0,
+  method_45346(true, tickDelta) - 0.2f * scaleFactor,
+  width * 0.56f
+)
+9. Ограничения поворота головы
+Максимальный диапазон для clampHeadYaw когда stationary: ±30°
+Для пассажиров clampPassengerYaw: ограничение yaw пассажира ±160° от yaw верблюда.
+В модели (CamelEntityModel#setHeadAngles):
+headYaw ограничивается диапазоном [-30°, 30°]
+headPitch ограничивается диапазоном [-25°, 45°]
+При активном прыжковом (dash) cooldown добавляется коррекция к headPitch:
+Code
+f = animationProgress - age
+g = 45 * (jumpCooldown - f)/55
+headPitch = clamp(headPitch + g, -25, 70)
+10. Сидячие анимационные размеры и глаз
+Рассмотрено выше: уменьшение высоты на 1.43; глаз = height - 0.1.
+
+11. Питание и разведение
+BREEDING_INGREDIENT: Ingredient.ofItems(Items.CACTUS) — верблюды размножаются кактусом.
+Метод isBreedingItem(ItemStack) → проверка ингредиента.
+receiveFood (переопределён для верблюда):
+Проверяет, является ли предмет кактусом.
+Лечение: heal(2.0f) если здоровье < max.
+Любовь (размножение) если isTame() (верблюд всегда isTame() == true) и getBreedingAge()==0 и canEat().
+Ускорение роста детёныша: если isBaby() → частицы HAPPY_VILLAGER и growUp(10).
+Проигрывание звука еды getEatSound() (ENTITY_CAMEL_EAT) и частицы (через ParticleTypes.HAPPY_VILLAGER).
+CamelEntity создаёт потомка:
+
+createChild → EntityType.CAMEL.create(serverWorld) (без генетики).
+12. Звуки (используемые SoundEvents)
+CamelEntity:
+
+Ambient: ENTITY_CAMEL_AMBIENT
+Hurt: ENTITY_CAMEL_HURT
+Death: ENTITY_CAMEL_DEATH
+Step: ENTITY_CAMEL_STEP или ENTITY_CAMEL_STEP_SAND (если поверхность - песок)
+Eat: ENTITY_CAMEL_EAT
+Dash: ENTITY_CAMEL_DASH (при startJumping)
+Dash Ready: ENTITY_CAMEL_DASH_READY (по окончании cooldown)
+Sit: ENTITY_CAMEL_SIT
+Stand: ENTITY_CAMEL_STAND
+Saddle: ENTITY_CAMEL_SADDLE
+13. AI / Brain
+CamelBrain.initialize(this, random)
+createBrainProfile() и deserializeBrain() используют CamelBrain (не предоставлен).
+В mobTick: brain.tick, CamelBrain.updateActivities(this).
+Память паники: isPanicking() — проверка MemoryModuleType.IS_PANICKING.
+14. Рендеринг, модель и слои
+EntityModelLayers:
+
+public static final EntityModelLayer CAMEL = registerMain("camel");
+CamelEntityRenderer:
+
+Texture: textures/entity/camel/camel.png
+Тень (shadow radius) = 0.7f
+CamelEntityModel:
+
+Части модели:
+BODY (с "hump")
+HEAD (уши, морда, etc.)
+LEGS: left/right front/hind
+TAIL
+Доп. элементы оснастки: SADDLE, BRIDLE, REINS
+Массивы:
+saddleAndBridle[] = { BODY.child("saddle"), HEAD.child("bridle") }
+reins[] = { HEAD.child("reins") }
+Отображение:
+Если isSaddled() → saddle+bridle.visible = true
+Если hasPassengers() && isSaddled() → reins.visible = true
+Масштаб детёныша при рендере: 0.45 (scale) и translate Y ≈ 1.834375
+1.834375 = 29.35 / 16 (учёт пиксельной сетки – поле field_43084 = 29.35f).
+Анимация движения:
+animateMovement(CamelAnimations.WALKING, f, g, 2.0f, 2.5f);
+f = limbAngle, g = limbDistance
+Скоростные коэффициенты LIMB_ANGLE_SCALE = 2.0, LIMB_DISTANCE_SCALE = 2.5.
+15. Анимационные состояния на клиенте (AnimationState)
+CamelEntity имеет поля (все AnimationState):
+
+sittingTransitionAnimationState
+sittingAnimationState
+standingTransitionAnimationState
+idlingAnimationState
+dashingAnimationState
+Логика updateAnimations():
+
+Idle анимация запускается каждые random(0..39)+80 тиков (т.е. интервал 80–119).
+Если нужно обновлять сидячие анимации — запускаются/останавливаются соответствующие состояния.
+dashingAnimationState управляется флагом isDashing().
+standingTransition запускается если isChangingPose() && getLastPoseTickDelta() >= 0.
+16. Список анимаций (CamelAnimations)
+Все Animation создаются через Builder:
+
+Анимации:
+
+WALKING (looping, 1.5s)
+SITTING_TRANSITION (2.0s)
+SITTING (1.0s)
+STANDING_TRANSITION (2.6s)
+DASHING (looping, 0.5s)
+IDLING (4.0s)
+Ниже — ключевые параметры. (Полный набор ключфреймов — из кода; даю структурированно.)
+
+16.1 WALKING (1.5 s, looping)
+Bone → ROTATE / TRANSLATE keyframes (t в секундах):
+
+root rotate Z: (0:+2.5°) → (1.0:-2.5°) → (1.5:+2.5°)
+head pitch: 0:+2.5°, 0.375:-2.5°, 0.75:+2.5°, 1.125:-2.5°, 1.5:+2.5°
+right_front_leg rotate X: 0:+22.5°, 0.75:-22.5°, 1.5:+22.5°
+right_front_leg translate Y: 0:0, 0.4583:+4.0, 0.75:0, 1.5:0
+left_front_leg rotate X: 0:-22.5°, 0.75:+22.5°, 1.5:-22.5°
+left_front_leg translate Y: 0:0, 1.2083:+4.0, 1.5:0
+left_hind_leg rotate X: 0:-20.4°, 0.75:+22.5°, 1.375:-22.5°, 1.5:-20.4°
+left_hind_leg translate Y: 0:-0.21, 0.75:0, 1.0833:+4.0, 1.375:0, 1.5:-0.21
+right_hind_leg rotate X: 0:+22.5°, 0.625:-22.5°, 1.5:+22.5°
+right_hind_leg translate Y: 0:0, 0.375:+4.0, 0.625:0, 1.5:0
+left_ear rotate Z: 0:0, 0.375:-22.5°, 0.75:0, 1.125:-22.5°, 1.5:0
+right_ear rotate Z: (аналогично, но +22.5°)
+tail rotate (сложный вектор): 0:(15.94102, -8.42106, 20.94102), 0.75:(15.94102, 8.42106,-20.94102), 1.5: возврат к первому.
+16.2 SITTING_TRANSITION (2.0 s)
+Основные моменты (body):
+
+ROTATE X: 0:0° → 1.3:30° → 1.8:24° → 2.0:0° (итоговая поза уже со смещением вниз достигается через TRANSLATE)
+TRANSLATE (body Y,Z):
+0: (0,0,0)
+1.3: (0,0,+1)
+1.8: (0,-6,+1)
+2.0: (0,-19.9,0) (понижение корпуса ~20 пикселей)
+Ноги:
+
+Передние (right_front_leg / left_front_leg):
+К конечному моменту (2.0s) поворот до -90° (с небольшими ±10° по Z для左右 различия) и трансляция вниз и вперёд (Y≈ -20.6, Z≈ +12)
+Задние (hind legs):
+Плавный переход от нормальной стойки к сложенным (до -90° X, ±15° Z у конечных кадров), с многошаговой трансляцией (в т.ч. Y опускается ~ -20.5, Z от 5 до 5/ветвь).
+Head:
+
+Наклон вниз к ~ -27.5° (0.7s), затем -21.25° (1.5s) и возврат к 0° (2.0s)
+Tail:
+
+0s: +5°
+1.9s: +80°
+2.0s: +50°
+16.3 SITTING (1.0 s, статичная поза)
+body translate: фиксировано (0, -19.9, 0)
+Передние ноги: -90° X (слегка ±10° по Z) + опущены (Y -20.6, Z +12)
+Задние ноги: -90° X (±15 Z) + (Y -20.5, Z 5)
+Tail: 50° X
+Head: 0°
+16.4 STANDING_TRANSITION (2.6 s)
+Обратное восхождение:
+
+body rotate X: 0:0°, 0.7:-17.5°, 1.8:-17.83°, 2.3:-5.83°, 2.6:0°
+body translate Y,Z: 0:(-19.9,0) → 0.7:(-19.9,-3) → 1.4:(-12.76,-4) → 1.8:(-10.1,-4) → 2.3:(-2.9,-2) → 2.6:(0,0)
+Передние ноги: от -90° к 0° (через -49.06°, -22.5°, -25°)
+Задние ноги: из сложенного состояния (-90°) через серию (например, left_hind_leg: -90° → -60° → +35° → +30° → 0°)
+Head: поднимается до 65°, возвращается к 0°
+Tail: колебания от 50° до 5°
+16.5 DASHING (0.5 s, looping)
+body rotate X ≈ 5° постоянно
+tail колеблется между 67.5° и 112.5° каждые 0.125s
+head качается между 10° и 0° (каждые 0.125s)
+Передние ноги чередуют позу рывка (44.97°, ~) с -90° (сложены в быстрых фазах)
+Задние ноги аналогично (смена 90° ↔ -45° X)
+Уши фиксированы повёрнутыми: left_ear Y = -67.5°, right_ear Y = +67.5°
+16.6 IDLING (4.0 s)
+tail мягко колеблется (5° → небольшие отклонения)
+head: 0° → -2.5° → 0°
+Ears (2.5s-3.0s): серия «помахов»:
+left_ear: 0 → -45° ↔ +22.5° (несколько раз) → -45°
+right_ear: 0 → +45° ↔ -22.5° → +45°
+17. Математика анимаций (общая для Camel через AnimationHelper)
+AnimationHelper.animate(model, animation, runningTimeMs, scale, tempVec):
+
+f = runningTimeSeconds = (runningTimeMs / 1000f)
+Если animation.looping → f = f % lengthInSeconds
+По каждому Transformation:
+Ищется i,j ключевые кадры (binarySearch по timestamp)
+delta = (f - t_i) / (t_j - t_i) (clamped)
+Интерполяция:
+LINEAR: линейная
+CUBIC: Катмулл-Ром (catmullRom)
+Результат умножается на scale (вызов из CamelEntityModel#setAngles даёт scale=1.0)
+Target:
+TRANSLATE: pivot += vector (но в AnimationHelper createTranslationalVector(y) инвертирует Y: createTranslationalVector(x,y,z) = (x, -y, z)
+ROTATE: углы в радианах (createRotationalVector умножает градусы на π/180)
+SCALE: xScale+=, yScale+=, zScale+= (не используется в CamelAnimations)
+18. Лимбы (ходьба) вне анимаций поз
+CamelEntity.override updateLimbs(float posDelta):
+
+Code
+if (pose==STANDING && !dashingAnimationState.isRunning())
+    limbSpeed = min(posDelta * 6.0f, 1.0f)
+else
+    limbSpeed = 0
+limbAnimator.updateLimbs(limbSpeed, 0.2f)
+(Ускоренный множитель 6.0f при ходьбе.)
+
+19. Инициализация LAST_POSE_TICK
+initLastPoseTick(time):
+
+Code
+setLastPoseTick( max(0, time - 52 - 1) )
+Это делает delta большой → верблюд считается не в переходе (isChangingPose=false) сразу при спавне.
+
+20. Прочие численные константы / диапазоны
+Собраны все встреченные camel-специфичные:
+
+Назначение	Значение
+Dash cooldown (полный)	55 тиков
+Граница отключения Dashing	dashCooldown < 50
+Доп. бонус скорости при спринте (если cooldown==0)	+0.1
+Horizontal dash multiplier	22.2222f
+Vertical dash multiplier	1.4285f
+Снижение высоты в сидячей позе	1.43f
+Длительность sitting transition	40 тиков (standing→sitting)
+Длительность standing transition	52 тика (sitting→standing)
+Ticks параметр k (сидение)	28
+k (стояние, primary rider)	24
+k (стояние, вторичный)	32
+l (сидение primary / secondary)	0.5 / 0.1
+l (вставание primary / secondary)	0.6 / 0.35
+i (разница g-h) = scale*0.2	0.2*scale
+Idle animation cooldown random	80–119
+Ограничение headYaw	±30°
+Базовый headPitch диапазон	[-25°, +45°], при подготовке даша до +70°
+Коррекция headPitch при cooldown	+g с g=45*(remaining/55)
+Attack passenger Y offset	0.5
+Leash Z offset multiplier	width * 0.56
+Leash Y offset correction	-0.2 * scale
+Child model scale	0.45
+Child translate Y (render)	1.834375
+Limb walk speed multiplier	*6 (до clamp1)
+Limb smoothing multiplier	0.2 (у Camel), иначе для общего случая 0.4
+Horse derived saddle speed (camel override)	base movement speed (+bonus)
+21. Условия переключения поз и поведения
+Любое управление MOVE_TO (CamelMoveControl.tick) если он сидит и не в переходе → startStanding()
+При слишком длинной длине поводка > 6.0f и сидит → startStanding()
+Если повреждён (applyDamage) → setStanding() (принудительно)
+Если sitting и попадает в воду → setStanding()
+22. События/звуковые триггеры по времени
+Dash Ready звук в момент сброса dashCooldown до 0.
+Dash звук при startJumping.
+Sit/Stand звуки при вызове startSitting/startStanding.
+Eat звук при receiveFood (когда успешна еда / рост / размножение).
+23. Седло и оснастка в модели
+CamelEntityModel#updateVisibleParts:
+
+Code
+visible(saddle, bridle) = isSaddled()
+visible(reins) = hasPassengers() && isSaddled()
+(Верёвки показываются только если кто-то сидит + седло.)
+
+24. Рендер-текстура
+CamelEntityRenderer:
+
+Code
+private static final Identifier TEXTURE =
+    new Identifier("textures/entity/camel/camel.png");
+Изображение (предоставленное) — это и есть лист текстуры (включая окраску тела, тени, элементы оснастки).
+
+25. Связь с общими системами
+AnimationState.update(): преобразует ticks → миллисекунды (age * 1000 / 20).
+В CamelEntity#updateAnimations выбирается какая конкретная AnimationState активизируется.
+LimbAnimator отдельен от костных Animation (Walk анимацию применяет animateMovement, которая сама вызывает updateAnimation по movement).
+26. Потенциальные формулы в более аналитической записи
+26.1. Dash скорость
+Пусть:
+
+S_m = attr(GENERIC_MOVEMENT_SPEED) (по умолчанию 0.09)
+V_base = currentVelocity
+dir = normalize( (rotationVector.x, 0, rotationVector.z) )
+vmult = getVelocityMultiplier() (обычно 1.0 на суше)
+Тогда:
+
+Code
+horizontal = dir * (22.2222 * strength * S_m * vmult)
+jumpBase = HORSE_JUMP_STRENGTH * jumpVelocityMultiplier + jumpBoostVelocityModifier
+vertical = (1.4285 * strength) * jumpBase
+V_new = V_base + (horizontal.x, vertical, horizontal.z)
+26.2. Изменение угла головы при перезарядке рывка
+Пусть:
+
+remaining = getJumpCooldown() - (animationProgress - age)
+headPitchClamped = clamp(originalHeadPitch + 45 * remaining / 55, -25, 70)
+26.3. Интерполяция посадки пассажира (method_45346)
+Обозначим:
+
+Code
+scale = s
+g = 1.43 * s
+h = g - 0.2 * s
+i = 0.2 * s
+j = (sitting? 40 : 52)
+m = clamp(delta, 0, j)
+bl4 = m < k
+n2 = bl4 ? m/k : (m-k)/(j-k)
+o = g - l * h
+Case SIT (bl3):
+  Yadd = lerp(n2,
+              bl4 ? g : o,
+              bl4 ? o : i)
+Case STAND (else):
+  Yadd = lerp(n2,
+              bl4 ? (i - g) : (i - o),
+              bl4 ? (i - o) : 0)
+If steady sitting (no transition):
+  Yadd += i
+Result height = mountedHeightOffset + Yadd
+26.4. MountedHeightOffset
+Code
+baseHeight = (pose == SITTING ? sittingDimensions.height : standingDimensions.height)
+mountedOffset = baseHeight - (isBaby ? 0.35 : 0.6)
+26.5. Ограничение поворота пассажира
+Yaw пассажира:
+
+Code
+g = wrapDegrees(passengerYaw - camelYaw)
+h = clamp(g, -160, 160)
+passenger.yaw = passengerYaw + (h - g)
+26.6. Idle animation запуск
+Code
+if (idleAnimationCooldown <= 0)
+   idleAnimationCooldown = random.nextInt(40) + 80
+   idlingAnimationState.start(age)
+else
+   --idleAnimationCooldown
+27. Отличия от лошадей
+Главные уникальные особенности Camel по сравнению с AbstractHorseEntity:
+
+Две позиции (сидит / стоит) с длинной анимацией изменения высоты корпуса.
+Возможность везти двух пассажиров (позиционирование второго смещено назад и ниже).
+Рывок (dash) со своей отдельной короткой анимацией и cooldown 55 (у лошадей — заряженный прыжок, но нет управления горизонтальным множителем 22.2222).
+Сидячее состояние блокирует движение и поворот головы сверх 30°.
+Breeding item – кактус (у стандартных лошадей другой список).
+Всегда isTame() == true (лошадь требует приручения; Camel переопределяет isTame, возвращая true).
+Специальные звуки верблюда.
+Специальная логика перехода позы через знак LAST_POSE_TICK.
+28. Прочие моменты
+При повреждении верблюд автоматически встаёт (setStanding() в applyDamage).
+При слишком длинном поводке (leashLength > 6) в сидячем состоянии — встаёт.
+Смена состояния дашинга на клиенте синхронизируется через DataTracker; при первом получении DASHING (если dashCooldown==0) устанавливается 55.
+29. Полный список camel-специфичных SoundEvents (повтор для ясности)
+ENTITY_CAMEL_AMBIENT, ENTITY_CAMEL_HURT, ENTITY_CAMEL_DEATH, ENTITY_CAMEL_STEP, ENTITY_CAMEL_STEP_SAND, ENTITY_CAMEL_SIT, ENTITY_CAMEL_STAND, ENTITY_CAMEL_EAT, ENTITY_CAMEL_DASH, ENTITY_CAMEL_DASH_READY, ENTITY_CAMEL_SADDLE.
+
+30. Все camel-константы (как встречаются в коде CamelEntity)
+(Сводный перечень, включая «field_…» из декомпиляции)
+
+Имя (как в коде)	Значение	Смысл
+field_40132	55	dashCooldown первоначальный
+field_41764	30	clamp головы / yaw? (используется в clampHeadYaw 30°)
+field_40146	0.1f	добавка скорости в getSaddledSpeed при спринте
+field_40147	1.4285f	вертикальный множитель рывка
+field_40148	22.2222f	горизонтальный множитель рывка
+field_43388	5	(Видимо число тиков до отключения Dashing: 55-50)
+field_40149	40	длительность sitting transition
+field_40133	52	длительность standing transition
+field_40134	80	нижняя граница Idle cooldown
+field_40135	1.43f	высота уменьшения сидячих размеров
+SITTING_DIMENSIONS reduce	-1.43f высота	сидячие габариты
+Eye offset reduce	-0.1f	для getActiveEyeHeight
+Leash Y correction	-0.2f * scale	формула в getLeashOffset
+Leash Z multiplier	width * 0.56f	смещение вперёд
+31. Camel в EntityModelLayers
+Строка:
+
+Code
+public static final EntityModelLayer CAMEL = registerMain("camel");
+Используется при загрузке части модели (ctx.getPart(layer)) в CamelEntityRenderer.
+
+32. Ограничение масштабирования детёныша
+В CamelEntityModel.render():
+
+Code
+if (this.child) {
+  scale(0.45,0.45,0.45)
+  translate(0,1.834375,0)
+}
+(1.834375 = 29.35 / 16 — вероятно пересчитанная высота для правильного выравнивания.)
