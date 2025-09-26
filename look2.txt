@@ -1,0 +1,172 @@
+Обозначения и единицы
+
+1 тик = 1/20 секунды.
+Углы в градусах (°); при применении в коде переводятся в радианы.
+scale = 1.0 для взрослой особи (у детёныша 0.45).
+“primary rider” = 1-й пассажир (водитель), “secondary” = 2-й.
+Каналы и состояния анимаций (AnimationState)
+walking: не отдельный AnimationState; проигрывается через animateMovement(CamelAnimations.WALKING, …) при ходьбе.
+sittingTransitionAnimationState: переход стоя → сидя (one-shot).
+sittingAnimationState: сидячая статичная поза (looping).
+standingTransitionAnimationState: переход сидя → стоя (one-shot).
+dashingAnimationState: короткая рывковая анимация (looping, активна лишь в начале cooldown).
+idlingAnimationState: айдл-«жизнь» (looping) — редкие покачивания и «флик» ушей.
+Детализация всех анимаций (название, длительность, тип, запуск, ключевые эффекты)
+WALKING
+
+Тип: looping, длительность 1.5 s.
+Условие: поза STANDING и не активен dashingAnimationState, limbAnimator.speed > 0.
+Источник движения: LimbAnimator.updateLimbs(speed, smoothing) с параметрами верблюда (см. раздел 3).
+Эффекты: покачивания корпуса (root roll ±2.5°), головы (head pitch ±2.5°), противофазные ноги (±22.5° X + подпружинивающие translate Y), колебания хвоста, ушей.
+SITTING_TRANSITION (стоять → сидеть)
+
+Тип: one-shot; ресурс анимации ≈ 2.0 s; двигательная фаза позы длится 40 тиков.
+Запуск: startSitting(), звук ENTITY_CAMEL_SIT; isChangingPose()==true пока не отработает длительность.
+Эффекты (суммарно к концу): корпус опускается ~20 пикселей модели; передние/задние ноги уходят к -90° X, легкие ± по Z, смещения Y/Z; голова вниз к ~-27.5°, затем ближе к 0; хвост к ~+50°.
+SITTING (сидячая поза)
+
+Тип: looping (статическая поза).
+Условие: isSitting()==true и !isChangingPose().
+Эффекты: body translateY ≈ -19.9; передние/задние ноги ≈ -90° X; tail ≈ +50°; голова близко к 0°. В этот период работает только idling (дыхание корпуса + редкие уши), ходьбы/даш нет.
+STANDING_TRANSITION (сидеть → стоять)
+
+Тип: one-shot; ресурс анимации ≈ 2.6 s; двигательная фаза позы длится 52 тика.
+Запуск: startStanding(), звук ENTITY_CAMEL_STAND; isChangingPose()==true на время.
+Эффекты: поднятие корпуса (возврат translateY), раскладывание ног от -90° к 0° X, подъём головы до ~+65° и возврат, хвост — качки.
+DASHING
+
+Тип: looping (короткий цикл 0.5 s).
+Запуск: при isDashing()==true. Включается в момент прыжка/рывка (startJumping/jump), звук ENTITY_CAMEL_DASH.
+Продолжительность флага “Dashing”: пока cooldown >= 50 (первые ~5 тиков из 55). После 5 тиков визуальная dashingAnimationState обычно гаснет.
+Эффекты: корпус ~+5° pitch; голова «качает» 0↔10°; ноги — быстрые чередования; уши ярко повернуты (left_ear Y≈-67.5°, right_ear Y≈+67.5°).
+Дополнительно (не AnimationState, но влияет): на голову накладывается «подъём по cooldown»: headPitch += 45°*(remaining/55), линейно затухающий к 0 при снижении dashCooldown.
+IDLING
+
+Тип: looping, 4.0 s.
+Запуск: когда верблюд спокоен; перезапуск каждые random(80..119) тиков.
+Эффекты: мягкие качки хвоста, головы (0 → -2.5° → 0); «флик» ушей в окне ~2.5–3.0 s (левое/правое ухо попеременно до ±45°).
+Лимбы (ходьба): скорость/сглаживание
+В CamelEntity.updateLimbs():
+Если STANDING и dashingAnimationState не активен:
+limbSpeed = min(posDeltaXZ * 6.0, 1.0)
+Иначе limbSpeed = 0.
+Затем limbAnimator.updateLimbs(limbSpeed, 0.2f) — коэффициент сглаживания именно 0.2 (у многих мобов 0.4).
+При рендере ходьбы используется animateMovement(WALKING, limbAngle, limbDistance, angleScale=2.0, distanceScale=2.5).
+Переходы поз (математика method_45346) — 2‑фазные кривые
+Параметры:
+j — длительность: 40 тиков (к сидению) или 52 (к стойке).
+k — порог деления фаз:
+Сидение: k=28.
+Вставание: k=24 (primary) или 32 (secondary).
+l — коэффициент «углубления» опускания:
+Сидение: l=0.5 (primary), 0.1 (secondary).
+Вставание: l=0.6 (primary), 0.35 (secondary).
+scale=s; g=1.43s; h=g-0.2s; i=0.2s.
+m = clamp(lastPoseTickDelta + partialTicks, 0, j).
+firstPhase = m < k; n2 = (firstPhase ? m/k : (m-k)/(j-k)).
+o = g - l*h.
+Итоговая вертикальная добавка Y для rider и «позы» берётся piecewise (см. look.txt). В устойчивом сидении добавка = i.
+Физика рывка (dash) и скорость передвижения
+Атрибуты (createCamelAttributes):
+Max Health: 32.0
+Movement Speed (generic.movement_speed): 0.09
+HORSE_JUMP_STRENGTH: 0.42
+Седло/ускорение:
+getSaddledSpeed(controllingPlayer) = movement_speed_attr + (player.isSprinting() && getJumpCooldown()==0 ? 0.1f : 0f).
+Рывок (jump/“длинный прыжок”):
+При jump(strength, movementInput):
+dir = нормализованный горизонтальный вектор по взгляду.
+horizontal_add = dir * (22.2222f * strength) * movement_speed_attr * velocityMultiplier.
+jumpBase = HORSE_JUMP_STRENGTH * jumpVelocityMultiplier + jumpBoostVelocityModifier.
+vertical_add = (1.4285f * strength) * jumpBase.
+velocity += (horizontal_add.x, vertical_add, horizontal_add.z).
+dashCooldown = 55; setDashing(true).
+Отключение флага Dashing:
+если isDashing() && dashCooldown < 50 && (onGround || touchingWater || hasVehicle()) → setDashing(false).
+Звук “Dash Ready” (ENTITY_CAMEL_DASH_READY) при переходе cooldown к 0.
+Стационарность и ввод
+stationary = isSitting() || isChangingPose().
+Пока stationary:
+travel(Vec3d) обнуляет горизонтальную скорость.
+clampHeadYaw(±30°).
+Прыжок запрещён; любой ввод «движения» провоцирует startStanding().
+Попадание в воду → setStanding().
+Размеры, глаза, камера, поводок, пассажиры
+Сидячие габариты: по высоте меньше на 1.43f (SITTING_DIMENSIONS = standingHeight - 1.43f).
+Высота глаз: dimensions.height - 0.1f.
+Mounted height offset:
+baseHeight = (pose==SITTING ? sittingHeight : standingHeight).
+mountedOffset = baseHeight - (isBaby ? 0.35f : 0.6f).
+method_45346(primaryRider, partialTicks): вертикальная прибавка (см. раздел 4) добавляется к mountedOffset при посадке/рендере rider’ов.
+Пассажиры (updatePassengerPosition):
+Базовый Z-сдвиг: +0.5f.
+Второй пассажир: дополнительный f = -0.7f (смещается назад).
+Если пассажир AnimalEntity: +0.2f к Z.
+Вертикаль g = method_45346(true/false, tickDelta) + passenger.getHeightOffset(); для удалённой сущности страховой g=0.01.
+Пассажир yaw ограничен clampPassengerYaw(±160° от yaw верблюда).
+Камера (всадника): использует mounted height + method_45346(true, partialTicks), основана на тех же формулах (см. выше).
+Поводок (Leash):
+getLeashOffset(tickDelta) = (0, method_45346(true,tickDelta) - 0.2*scale, width * 0.56f).
+Тень: shadow radius ≈ 0.7.
+Ограничения головы/корпуса
+Во время stationary: clampHeadYaw в пределах ±30° (диапазон).
+Базовый headPitch: [-25°, +45°]; при dash cooldown добавка до +70° (см. headPitch += 45°*(remaining/55), clamp к 70°).
+Во время dashingAnimationState: корпус стабильно приподнят (~+5° pitch).
+Устройство модели (CamelEntityModel) и слои
+Слой модели: EntityModelLayers.CAMEL.
+Текстура: "minecraft:textures/entity/camel/camel.png".
+Кости/части (именования в Yarn 1.20.1):
+root
+body (горб, седло — дочерние saddle, bridle; упряжь “reins” — в голове)
+head (child: left_ear, right_ear, bridle, reins)
+legs: left_front_leg, right_front_leg, left_hind_leg, right_hind_leg
+tail
+Видимость оборудования:
+Седло и уздечка: видимы если isSaddled().
+Поводья: видимы если hasPassengers() && isSaddled().
+Детёныш (child):
+Масштаб модели: 0.45.
+Перенос по Y: +1.834375 (≈29.35/16).
+Рендер Walking:
+animateMovement(WALKING, limbAngle, limbDistance, 2.0, 2.5).
+DataTracker поля и их смысл
+DASHING (Boolean) — граф состояния рывка.
+LAST_POSE_TICK (Long):
+Отрицательное значение → верблюд «сидит» (isSitting()==true).
+Абсолютная величина хранит момент (worldTime) начала последней смены позы.
+getLastPoseTickDelta() = world.time - abs(LAST_POSE_TICK).
+initLastPoseTick(time): устанавливает LAST_POSE_TICK так, чтобы «не быть в переходе» сразу при спавне (time - 52 - 1, но не меньше 0).
+Звуки (SoundEvents) — когда проигрываются
+ENTITY_CAMEL_SIT — при startSitting().
+ENTITY_CAMEL_STAND — при startStanding().
+ENTITY_CAMEL_DASH — при startJumping().
+ENTITY_CAMEL_DASH_READY — когда dashCooldown доходит до 0.
+ENTITY_CAMEL_STEP / ENTITY_CAMEL_STEP_SAND — шаги.
+ENTITY_CAMEL_AMBIENT / HURT / DEATH / EAT — по ситуации.
+Скорости/частоты — сводная таблица
+Лимбы при ходьбе: speed = min(posDeltaXZ*6.0, 1.0), smoothing=0.2.
+animateMovement масштабы: angleScale=2.0, distanceScale=2.5.
+WALKING цикл: 1.5 s (≈0.666 Гц).
+Sitting transition: 40 тиков (2.0 s). Порог фазы k=28. Коэф. l=0.5 (primary), 0.1 (secondary).
+Standing transition: 52 тика (2.6 s). k=24 (primary) / 32 (secondary). l=0.6 / 0.35.
+IDLE перезапуск: каждые 80–119 тиков случайно.
+DashingAnimation активен: первые ≈5 тиков из 55.
+Dash cooldown: 55 тиков. HeadPitch добавка: до +45° в начале, линейно к 0.
+Уши (яркий поворот в dashing): ±67.5° по Y.
+Ограничения головы: yaw ±30° stationary; pitch базово [-25°, +45°], с cooldown до +70°.
+Координаты/оси/интерполяция
+Оси: Y вверх, X «восток», Z «юг» (как обычно в MC).
+yaw — вращение вокруг Y; в рендере часто используется интерполяция MathHelper.lerpAngleDegrees(prevBodyYaw, bodyYaw).
+Для bones модели CamelEntityModel в анимациях градусы переводятся в радианы; трансляции Y инвертируются в AnimationHelper (createTranslationalVector(x, y, z) = (x, -y, z)), что важно при ручном повторении ключей.
+Поведение входа/логика (резюме)
+Любая попытка движения при сидении → startStanding().
+Сидя в воде → принудительно встанет (setStanding()).
+При уроне → setStanding().
+При рывке setDashing(true) и устанавливается dashCooldown=55; сбрасывается при выполнении условий (см. 5).
+Практические советы для твоего render-only морфа
+
+Гашение ходьбы при сидении/переходах/даш — обязательно (иначе ноги «шагают» поверх).
+Вертикальный «просад» корпуса и высота камеры/пассажиров — сделай ровно по method_45346 (раздел 4) — это основа плавности 1:1.
+Для головы при cooldown добавляй +45°*(remaining/55) к pitch, с clamp к 70°.
+DashingAnimation визуально короткий (≈5 тиков) — отдельно от cooldown’а; уши в этот момент сильнее «разводятся» по Y (±67.5°).
+Idle уши — делай детерминированный цикл внутри 4‑секундного IDLING или — как компромисс — случайный запуск каждые 80–119 тиков (только вне переходов/даш).
