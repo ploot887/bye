@@ -1,0 +1,12 @@
+/*
+ * Decompiled with CFR 0.2.1 (FabricMC 53fa44c9).
+ */
+package net.minecraft.entity.ai.pathing;
+
+public enum NavigationType {
+    LAND,
+    WATER,
+    AIR;
+
+}
+
