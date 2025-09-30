@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"minVersion": "0.8.5",
+	"package": "seq.sequencermod.mixin",
+	"refmap": "sequencermod.refmap.json",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"morph.PlayerEntityRendererMixin",
+		"morph.PlayerShadowMixin",
+		"morph.EntityDimensionsMixin",
+		"morph.LivingEntityEyeHeightMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

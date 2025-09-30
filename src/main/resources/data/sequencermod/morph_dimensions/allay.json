@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:allay",
+  "default": { "width": 0.35, "height": 0.60 },
+  "poses": {
+    "CROUCHING":   { "width": 0.35, "height": 0.55 },
+    "SWIMMING":    { "width": 0.35, "height": 0.40 },
+    "FALL_FLYING": { "width": 0.35, "height": 0.40 },
+    "SPIN_ATTACK": { "width": 0.35, "height": 0.60 }
+  }
+}
